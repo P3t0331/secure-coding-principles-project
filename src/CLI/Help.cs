@@ -1,6 +1,7 @@
-namespace Panbyte.CLI {
-    public class Help {
-        private const string HelpText = @"
+namespace Panbyte.CLI;
+public class Help
+{
+    private const string HelpText = @"
 ARGS:
     -f FORMAT       --from=FORMAT           Set input data format
                     --from-options=OPTIONS  Set input options
@@ -20,8 +21,8 @@ FORMATS:
     
 ";
 
-        public static void Print() {
-            Console.Write(HelpText);
-        }
+    public static void Print()
+    {
+        Console.Write(HelpText);
     }
 }

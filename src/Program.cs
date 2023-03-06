@@ -1,23 +1,24 @@
-﻿namespace Panbyte
+﻿namespace Panbyte;
+class Program
 {
-    class Program
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        try
         {
-            try {
-                CLI.Arguments cliArgs = CLI.ArgumentsParser.Parse(args);
-                
-                if (cliArgs.help)
-                {
-                    CLI.Help.Print();
-                }
-            } catch (ArgumentException e) {
-                Console.WriteLine(e.Message);
-                CLI.Help.Print();
-                return 1;
-            }
+            Structs.Arguments cliArgs = CLI.ArgumentsParser.Parse(args);
 
-            return 0;
+            if (cliArgs.help)
+            {
+                CLI.Help.Print();
+            }
         }
+        catch (ArgumentException e)
+        {
+            Console.WriteLine(e.Message);
+            CLI.Help.Print();
+            return 1;
+        }
+
+        return 0;
     }
 }
