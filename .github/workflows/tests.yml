@@ -15,8 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies CLI
+      run: dotnet restore CLI
+    - name: Restore dependencies tests
+      run: dotnet restore tests
     - name: Build and test
       run: dotnet test tests
 
