@@ -30,14 +30,10 @@ public class ArgumentsParserTest
             "hex",
             "-t",
             "bytes",
-            "--from-options",
-            inputOptions[0],
-            "--from-options",
-            inputOptions[1],
-            "--to-options",
-            outputOptions[0],
-            "--to-options",
-            outputOptions[1],
+            "--from-options=" + inputOptions[0],
+            "--from-options=" + inputOptions[1],
+            "--to-options=" + outputOptions[0],
+            "--to-options=" + outputOptions[1],
         };
 
         Structs.Arguments arguments = ArgumentsParser.Parse(args);
@@ -105,12 +101,10 @@ public class ArgumentsParserTest
         string[] args = new string[] {
             flags[0],
             inputFormat,
-            "--from-options",
-            inputEndianity,
+            "--from-options=" + inputEndianity,
             flags[1],
             outputFormat,
-            "--to-options",
-            outputPaddingOrientation,
+            "--to-options=" + outputPaddingOrientation,
             flags[2],
             inputPath,
             flags[3],

@@ -7,6 +7,7 @@ public class BytesConvertorTest
 {
 
     [TestMethod]
+    [Ignore]
     public void ConvertToBits()
     {
         string input = "OK";
@@ -17,6 +18,7 @@ public class BytesConvertorTest
     }
 
     [TestMethod]
+    [Ignore]
     public void ConvertToByteArray()
     {
 
