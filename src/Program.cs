@@ -59,6 +59,7 @@ class Program
         catch (Exception e)
         {
             Console.WriteLine("Unknown exception occured. This application will terminate now.\nException: " + e.Message);
+            return 1;
         }
 
         return 0;
