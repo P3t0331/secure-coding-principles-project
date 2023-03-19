@@ -10,35 +10,53 @@ public class ArgumentsParser
         {
             string arg = args[i];
 
-            if (arg == "-f" || arg == "--from")
+            if (arg == "-f")
             {
                 builder.WithInputFormat(FormatParser.Parse(GetNextArg(args, ref i)));
             }
+            else if (arg.Contains("--from="))
+            {
+                builder.WithInputFormat(FormatParser.Parse(GetOption(arg)));
+            }
             else if (arg.Contains("--from-options="))
             {
-                var option = GetOption(arg);
-                builder.WithInputOptions(option);
+                builder.WithInputOptions(GetOption(arg));
             }
-            else if (arg == "-t" || arg == "--to")
+            else if (arg == "-t")
             {
                 builder.WithOutputFormat(FormatParser.Parse(GetNextArg(args, ref i)));
             }
+            else if (arg.Contains("--to="))
+            {
+                builder.WithOutputFormat(FormatParser.Parse(GetOption(arg)));
+            }
             else if (arg.Contains("--to-options="))
             {
-                var option = GetOption(arg);
-                builder.WithOutputOptions(option);
+                builder.WithOutputOptions(GetOption(arg));
             }
-            else if (arg == "-i" || arg == "--input")
+            else if (arg == "-i")
             {
                 builder.WithInputPath(GetNextArg(args, ref i));
             }
-            else if (arg == "-o" || arg == "--output")
+            else if (arg == "-o")
             {
                 builder.WithOutputPath(GetNextArg(args, ref i));
             }
-            else if (arg == "-d" || arg == "--delimiter")
+            else if (arg == "-d")
             {
                 builder.WithDelimiter(GetNextArg(args, ref i));
+            }
+            else if (arg.Contains("--input="))
+            {
+                builder.WithInputPath(GetOption(arg));
+            }
+            else if (arg.Contains("--output="))
+            {
+                builder.WithOutputPath(GetOption(arg));
+            }
+            else if (arg.Contains("--delimiter="))
+            {
+                builder.WithDelimiter(GetOption(arg));
             }
             else if (arg == "-h" || arg == "--help")
             {

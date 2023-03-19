@@ -8,14 +8,14 @@ public class ArgumentsParserTest
     [TestMethod]
     public void TestAllArgsShortForm()
     {
-        string[] flags = new string[] { "-f", "-t", "-i", "-o", "-d", "-h" };
+        string[] flags = new string[] { "-f", "int", "--from-options=little", "-t", "bits", "--to-options=left", "-i", "input.txt", "-o", "output.txt", "-d", ",", "-h" };
         TestAllArgs(flags);
     }
 
     [TestMethod]
     public void TestAllArgsLongForm()
     {
-        string[] flags = new string[] { "--from", "--to", "--input", "--output", "--delimiter", "--help" };
+        string[] flags = new string[] { "--from=int", "--from-options=little", "--to=bits", "--to-options=left", "--input=input.txt", "--output=output.txt", "--delimiter=,", "--help" };
         TestAllArgs(flags);
     }
 
@@ -86,33 +86,15 @@ public class ArgumentsParserTest
         Assert.AreEqual(ArgumentsParser.Parse(args).delimiter, ",");
     }
 
-    private void TestAllArgs(string[] flags)
+    private void TestAllArgs(string[] args)
     {
-        string inputFormat = "int";
-        string inputEndianity = "big";
-        string outputFormat = "bits";
+        string inputEndianity = "little";
         string outputPaddingOrientation = "left";
         string inputPath = "input.txt";
         string outputPath = "output.txt";
         string delimiter = ",";
         string[] inputOptions = new string[] { inputEndianity };
         string[] outputOptions = new string[] { outputPaddingOrientation };
-
-        string[] args = new string[] {
-            flags[0],
-            inputFormat,
-            "--from-options=" + inputEndianity,
-            flags[1],
-            outputFormat,
-            "--to-options=" + outputPaddingOrientation,
-            flags[2],
-            inputPath,
-            flags[3],
-            outputPath,
-            flags[4],
-            delimiter.ToString(),
-            flags[5]
-        };
 
         Structs.Arguments arguments = ArgumentsParser.Parse(args);
 
