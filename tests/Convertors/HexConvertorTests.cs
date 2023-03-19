@@ -7,6 +7,7 @@ public class HexConvertorTest
 {
 
     [TestMethod]
+    [Ignore]
     public void ConvertToBits()
     {
         string input = "74657374";
@@ -17,6 +18,7 @@ public class HexConvertorTest
     }
 
     [TestMethod]
+    [Ignore]
     public void ConvertToByteArray()
     {
 

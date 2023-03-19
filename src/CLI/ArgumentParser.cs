@@ -14,17 +14,19 @@ public class ArgumentsParser
             {
                 builder.WithInputFormat(FormatParser.Parse(GetNextArg(args, ref i)));
             }
-            else if (arg == "--from-options")
+            else if (arg.Contains("--from-options="))
             {
-                builder.WithInputOptions(GetNextArg(args, ref i));
+                var option = GetOption(arg);
+                builder.WithInputOptions(option);
             }
             else if (arg == "-t" || arg == "--to")
             {
                 builder.WithOutputFormat(FormatParser.Parse(GetNextArg(args, ref i)));
             }
-            else if (arg == "--to-options")
+            else if (arg.Contains("--to-options="))
             {
-                builder.WithOutputOptions(GetNextArg(args, ref i));
+                var option = GetOption(arg);
+                builder.WithOutputOptions(option);
             }
             else if (arg == "-i" || arg == "--input")
             {
@@ -61,5 +63,20 @@ public class ArgumentsParser
         {
             throw new ArgumentException("Missing argument value for: " + args[i - 1]);
         }
+    }
+
+    private static string GetOption(string arg)
+    {
+        var argSplit = arg.Split('=');
+        var option = argSplit[1];
+        if (argSplit.Length > 2)
+        {
+            throw new ArgumentException("Option not recognized " + arg);
+        }
+        if (string.IsNullOrEmpty(option))
+        {
+            throw new ArgumentException("No option provided: " + arg);
+        }
+        return option;
     }
 }

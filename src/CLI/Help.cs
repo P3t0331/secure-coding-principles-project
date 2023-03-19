@@ -16,8 +16,8 @@ FORMATS:
     bytes   Raw bytes
     hex     Hex-encoded string
     int     Integer
-    bits    0,1-represented bits
-    array   Byte array
+    bits    0,1-represented bits (not supported yet)
+    array   Byte array (not supported yet)
     
 ";
 

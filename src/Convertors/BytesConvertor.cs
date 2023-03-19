@@ -29,11 +29,15 @@ public class BytesConvertor : IConvertor
 
     public string ConvertToHex()
     {
-        throw new NotImplementedException();
+        return BitConverter.ToString(input).Replace("-", string.Empty);
     }
 
     public string ConvertToInt(Enums.Endianity endianity = Enums.Endianity.Big)
     {
-        throw new NotImplementedException();
+        if (endianity == Enums.Endianity.Big)
+        {
+            Array.Reverse(input);
+        }
+        return BitConverter.ToUInt32(input, 0).ToString();
     }
 }

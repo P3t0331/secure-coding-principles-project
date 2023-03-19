@@ -3,11 +3,19 @@ namespace Panbyte.Convertors;
 public class IntConvertor : IConvertor
 {
 
-    private int input;
+    private UInt32 input;
+    private Enums.Endianity inputEndianity;
 
     public IntConvertor(string input, Enums.Endianity inputEndianity = Enums.Endianity.Big)
     {
-        this.input = int.Parse(input);
+        this.inputEndianity = inputEndianity;
+        this.input = UInt32.Parse(input);
+        if (inputEndianity == Enums.Endianity.Little)
+        {
+            byte[] bytes = BitConverter.GetBytes(this.input);
+            Array.Reverse(bytes);
+            this.input = BitConverter.ToUInt32(bytes, 0);
+        }
     }
 
     public string ConvertToBits()
@@ -22,16 +30,27 @@ public class IntConvertor : IConvertor
 
     public string ConvertToBytes()
     {
-        throw new NotImplementedException();
+        byte[] bytes = BitConverter.GetBytes(input);
+        Array.Reverse(bytes);
+        return System.Text.Encoding.UTF8.GetString(bytes);
     }
 
     public string ConvertToHex()
     {
-        throw new NotImplementedException();
+        return input.ToString("X4").ToLower();
     }
 
     public string ConvertToInt(Enums.Endianity endianity = Enums.Endianity.Big)
     {
-        throw new NotImplementedException();
+        if (inputEndianity == endianity)
+        {
+            return input.ToString();
+        }
+        else
+        {
+            byte[] bytes = BitConverter.GetBytes(input);
+            Array.Reverse(bytes);
+            return BitConverter.ToUInt32(bytes, 0).ToString();
+        }
     }
 }

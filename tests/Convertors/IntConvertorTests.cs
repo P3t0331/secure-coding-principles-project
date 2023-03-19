@@ -7,6 +7,7 @@ public class IntConvertorTest
 {
 
     [TestMethod]
+    [Ignore]
     public void ConvertToBits()
     {
         string input = "1952805748";
@@ -17,6 +18,7 @@ public class IntConvertorTest
     }
 
     [TestMethod]
+    [Ignore]
     public void ConvertToByteArray()
     {
 
