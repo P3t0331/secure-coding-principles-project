@@ -12,7 +12,7 @@ Clone the repository.
 ## Usage
 To use Panbyte, open the terminal or command prompt and navigate to the Panbyte "src" directory. Run the following command:
 ```
-echo "Your input" || dotnet run -- [ARGS...]
+echo "Your input" | dotnet run -- [ARGS...]
 ```
 Replace ```[ARGS...]``` with the desired command-line arguments.
 
