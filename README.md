@@ -23,9 +23,9 @@ The following command-line arguments are available:
 --from-options=OPTIONS                Set input options
 -t FORMAT, --to=FORMAT                Set output data format
 --to-options=OPTIONS                  Set output options
--i FILE, --input=FILE                 Set input file (default stdin)
--o FILE, --output=FILE                Set output file (default stdout)
--d DELIMITER, --delimiter=DELIMITER   Record delimiter (default newline)
+-i FILE, --input=FILE                 Set input file (default stdin) (not supported yet)
+-o FILE, --output=FILE                Set output file (default stdout) (not supported yet)
+-d DELIMITER, --delimiter=DELIMITER   Record delimiter (default newline) (not fully supported yet)
 -h, --help                            Print help
 ```
 ### Formats
@@ -34,8 +34,8 @@ The following input and output data formats are available:
 bytes: Raw bytes
 hex: Hex-encoded string
 int: Integer
-bits: 0,1-represented bits
-array: Byte array
+bits: 0,1-represented bits (not supported yet)
+array: Byte array (not supported yet)
 ```
 ### Options
 ```
