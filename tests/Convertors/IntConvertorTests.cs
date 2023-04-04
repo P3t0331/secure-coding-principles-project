@@ -12,9 +12,9 @@ public class IntConvertorTest
     public void ConvertToBits()
     {
         string input = "1952805748";
-        var convertor = new Convertor(InputConvertor.ConvertInt(uint.Parse(input)));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToBits();
+        string result = convertor.ConvertToBits(InputConvertor.ConvertInt(uint.Parse(input)));
         Assert.AreEqual("01110100011001010111001101110100", result);
     }
 
@@ -29,9 +29,9 @@ public class IntConvertorTest
     public void ConvertToBytes()
     {
         string input = "1952805748";
-        var convertor = new Convertor(InputConvertor.ConvertInt(uint.Parse(input)));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToBytes();
+        string result = convertor.ConvertToBytes(InputConvertor.ConvertInt(uint.Parse(input)));
         Assert.AreEqual("test", result);
     }
 
@@ -39,9 +39,9 @@ public class IntConvertorTest
     public void ConvertToHexBig()
     {
         string input = "1234567890";
-        var convertor = new Convertor(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToHex();
+        string result = convertor.ConvertToHex(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
         Assert.AreEqual("499602D2", result);
     }
 
@@ -49,9 +49,9 @@ public class IntConvertorTest
     public void ConvertToHexLLittle()
     {
         string input = "1234567890";
-        var convertor = new Convertor(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Little));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToHex();
+        string result = convertor.ConvertToHex(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Little));
         Assert.AreEqual("D2029649", result);
     }
 
@@ -59,9 +59,9 @@ public class IntConvertorTest
     public void ConvertToInt()
     {
         string input = "1234567890";
-        var convertor = new Convertor(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToInt();
+        string result = convertor.ConvertToInt(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
         Assert.AreEqual("1234567890", result);
     }
 }

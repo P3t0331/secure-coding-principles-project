@@ -4,42 +4,42 @@ namespace Panbyte.Convertors;
 
 public class Convertor
 {
-
-    private byte[] input;
-
-    public Convertor(byte[] input)
-    {
-        this.input = input;
-    }
-
-    public string ConvertToBits()
+    public string ConvertToBits(byte[] input)
     {
         // TODO
         throw new NotImplementedException();
     }
 
-    public string ConvertToByteArray()
+    public string ConvertToByteArray(byte[] input)
     {
         // TODO
         throw new NotImplementedException();
     }
 
-    public string ConvertToBytes()
+    public string ConvertToBytes(byte[] input)
     {
-        return Encoding.UTF8.GetString(input);
+        byte[] byteArrInput = ParseInput(input);
+        return Encoding.UTF8.GetString(byteArrInput);
     }
 
-    public string ConvertToHex()
+    public string ConvertToHex(byte[] input)
     {
-        return BitConverter.ToString(input).Replace("-", string.Empty);
+        byte[] byteArrInput = ParseInput(input);
+        return BitConverter.ToString(byteArrInput).Replace("-", string.Empty);
     }
 
-    public string ConvertToInt(Enums.Endianity endianity = Enums.Endianity.Big)
+    public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
+        byte[] byteArrInput = ParseInput(input);
         if (endianity == Enums.Endianity.Big)
         {
-            Array.Reverse(input);
+            Array.Reverse(byteArrInput);
         }
-        return BitConverter.ToUInt32(input, 0).ToString();
+        return BitConverter.ToUInt32(byteArrInput, 0).ToString();
+    }
+
+    private byte[] ParseInput(byte[] input)
+    {
+        return Encoding.UTF8.GetBytes(input);
     }
 }
