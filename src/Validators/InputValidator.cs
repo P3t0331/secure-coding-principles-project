@@ -1,6 +1,6 @@
-﻿namespace panbyte.Validators;
+﻿namespace Panbyte.Validators;
 
-static class InputValidator
+public static class InputValidator
 {
     public static bool CheckIfUint(string input)
     {
@@ -26,7 +26,8 @@ static class InputValidator
 
     public static bool CheckIfHex(string input)
     {
-        if (!System.Text.RegularExpressions.Regex.IsMatch(input, @"\A\b[0-9a-fA-F ]+\b\Z") || input.Length % 2 == 1) 
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        if (!System.Text.RegularExpressions.Regex.IsMatch(input, @"\A\b[0-9a-fA-F]+\b\Z") || input.Length % 2 == 1) 
         {
             Console.WriteLine("Input is not in a valid hex format: " + input);
             return false;

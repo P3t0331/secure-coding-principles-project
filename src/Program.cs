@@ -1,4 +1,4 @@
-﻿using panbyte.Validators;
+﻿using Panbyte.Validators;
 using Panbyte.Convertors;
 using Panbyte.Enums;
 using System.Text;
