@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - milestone-1
+      - milestone-2
+      - main
 
 jobs:
   build-and-test:
