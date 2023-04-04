@@ -6,15 +6,13 @@ class Program
         try
         {
             Structs.Arguments cliArgs = CLI.ArgumentsParser.Parse(args);
-
-            if (cliArgs.help)
-            {
-                CLI.Help.Print();
-                return 0;
-            }
-
             CLI.InputProcessor inputProcessor = new CLI.InputProcessor(cliArgs);
             inputProcessor.ProcessInput();
+        }
+        catch (HelpException)
+        {
+            CLI.Help.Print();
+            return 0;
         }
         catch (ArgumentException e)
         {

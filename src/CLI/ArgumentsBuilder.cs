@@ -9,7 +9,6 @@ public class ArgumentsBuilder
     private string? inputPath = null;
     private string? outputPath = null;
     private string? delimiter = null;
-    private bool help = false;
 
     public ArgumentsBuilder WithInputFormat(Enums.Format inputFormat)
     {
@@ -53,14 +52,41 @@ public class ArgumentsBuilder
         return this;
     }
 
-    public ArgumentsBuilder WithHelp(Boolean help)
-    {
-        this.help = help;
-        return this;
-    }
-
     public Structs.Arguments Build()
     {
-        return new Structs.Arguments(inputFormat, inputOptions, outputFormat, outputOptions, inputPath, outputPath, delimiter, help);
+        if (inputFormat is null)
+        {
+            throw new ArgumentNullException("Input format is not set!");
+        }
+        else if (outputFormat is null)
+        {
+            throw new ArgumentNullException("Output format is not set!");
+        }
+
+        return new Structs.Arguments(GetInputFormat(), inputOptions, GetOutputFormat(), outputOptions, inputPath, outputPath, delimiter);
+    }
+
+    private Enums.Format GetInputFormat()
+    {
+        if (inputFormat is not null)
+        {
+            return (Enums.Format)inputFormat;
+        }
+        else
+        {
+            throw new ArgumentNullException("Input format is not set!");
+        }
+    }
+
+    private Enums.Format GetOutputFormat()
+    {
+        if (outputFormat is not null)
+        {
+            return (Enums.Format)outputFormat;
+        }
+        else
+        {
+            throw new ArgumentNullException("Output format is not set!");
+        }
     }
 }

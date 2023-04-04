@@ -8,7 +8,6 @@ public class IntConvertorTest
 {
 
     [TestMethod]
-    [Ignore]
     public void ConvertToBits()
     {
         string input = "1952805748";
@@ -42,17 +41,17 @@ public class IntConvertorTest
         var convertor = new Convertor();
 
         string result = convertor.ConvertToHex(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
-        Assert.AreEqual("499602D2", result);
+        Assert.AreEqual("499602d2", result);
     }
 
     [TestMethod]
-    public void ConvertToHexLLittle()
+    public void ConvertToHexLittle()
     {
         string input = "1234567890";
         var convertor = new Convertor();
 
         string result = convertor.ConvertToHex(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Little));
-        Assert.AreEqual("D2029649", result);
+        Assert.AreEqual("d2029649", result);
     }
 
     [TestMethod]

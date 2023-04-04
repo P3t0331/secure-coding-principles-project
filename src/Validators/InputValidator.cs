@@ -1,37 +1,50 @@
 ﻿namespace Panbyte.Validators;
 
+
 public static class InputValidator
 {
-    public static bool CheckIfUint(string input)
+    private const string HEX_REGEX = @"\A\b[0-9a-fA-F]+\b\Z";
+
+    public static void CheckIfUint(in string input)
     {
         try
         {
             uint.Parse(input);
-            return true;
-
-        } catch(OverflowException)
+        }
+        catch (OverflowException)
         {
-            Console.WriteLine("This number is not uint! " + input);
-            return false;
-        } catch (FormatException)
+            throw new FormatException("This number is not uint! " + input);
+        }
+        catch (FormatException)
         {
-            Console.WriteLine("This input is not a number!: " + input);
-            return false;
-        } catch(ArgumentNullException)
+            throw new FormatException("This input is not a number!: " + input);
+        }
+        catch (ArgumentNullException)
         {
-            Console.WriteLine("An unknown error has occured with this input: " + input);
-            return false;
+            throw new FormatException("An unknown error has occured with this input: " + input);
         }
     }
 
-    public static bool CheckIfHex(string input)
+    public static void CheckIfHex(in string input)
     {
-        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
-        if (!System.Text.RegularExpressions.Regex.IsMatch(input, @"\A\b[0-9a-fA-F]+\b\Z") || input.Length % 2 == 1) 
+        string noWhitespace = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        bool isHex = System.Text.RegularExpressions.Regex.IsMatch(noWhitespace, HEX_REGEX);
+        bool isEven = noWhitespace.Length % 2 == 0;
+
+        if (!isHex || !isEven)
         {
-            Console.WriteLine("Input is not in a valid hex format: " + input);
-            return false;
+            throw new FormatException("Input is not in a valid hex format: " + noWhitespace);
         }
-        return true;
+    }
+
+    public static void CheckIfBits(in string input)
+    {
+        string noWhitespace = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        bool isBits = noWhitespace.All(c => c == '0' || c == '1');
+
+        if (!isBits)
+        {
+            throw new FormatException("Input is not in a valid bits format: " + noWhitespace);
+        }
     }
 }

@@ -60,7 +60,7 @@ public class ArgumentsParser
             }
             else if (arg == "-h" || arg == "--help")
             {
-                builder.WithHelp(true);
+                throw new HelpException();
             }
             else
             {

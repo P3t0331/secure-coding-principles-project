@@ -6,11 +6,11 @@ public class Convertor
 {
     public string ConvertToBits(byte[] input)
     {
-        // TODO
-        throw new NotImplementedException();
+        string bitString = string.Concat(input.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+        return bitString;
     }
 
-    public string ConvertToByteArray(byte[] input)
+    public string ConvertToByteArray(byte[] input, Structs.ArrayOptions options)
     {
         // TODO
         throw new NotImplementedException();
@@ -18,28 +18,20 @@ public class Convertor
 
     public string ConvertToBytes(byte[] input)
     {
-        byte[] byteArrInput = ParseInput(input);
-        return Encoding.UTF8.GetString(byteArrInput);
+        return Encoding.UTF8.GetString(input);
     }
 
     public string ConvertToHex(byte[] input)
     {
-        byte[] byteArrInput = ParseInput(input);
-        return BitConverter.ToString(byteArrInput).Replace("-", string.Empty);
+        return BitConverter.ToString(input).Replace("-", string.Empty).ToLower();
     }
 
     public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
-        byte[] byteArrInput = ParseInput(input);
         if (endianity == Enums.Endianity.Big)
         {
-            Array.Reverse(byteArrInput);
+            Array.Reverse(input);
         }
-        return BitConverter.ToUInt32(byteArrInput, 0).ToString();
-    }
-
-    private byte[] ParseInput(byte[] input)
-    {
-        return Encoding.UTF8.GetBytes(input);
+        return BitConverter.ToUInt32(input, 0).ToString();
     }
 }

@@ -7,14 +7,13 @@ public class HexConvertorTest
 {
 
     [TestMethod]
-    [Ignore]
     public void ConvertToBits()
     {
         string input = "74657374";
         var convertor = new Convertor();
 
         string result = convertor.ConvertToBits(InputConvertor.ConvertHex(input));
-        Assert.AreEqual("1110100011001010111001101110100", result);
+        Assert.AreEqual("01110100011001010111001101110100", result);
     }
 
     [TestMethod]
