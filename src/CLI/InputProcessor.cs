@@ -62,6 +62,8 @@ public class InputProcessor
                 InputValidator.CheckIfBits(input);
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
                 return InputConvertor.ConvertBits(input, orientation);
+            case Format.Array:
+                return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.inputFormat);
         }

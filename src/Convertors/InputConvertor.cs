@@ -1,5 +1,6 @@
 using Panbyte.Enums;
 using System.Text;
+using Panbyte.Validators;
 namespace Panbyte.Convertors;
 
 public static class InputConvertor
@@ -40,6 +41,37 @@ public static class InputConvertor
                          .ToArray();
     }
 
+    public static byte[] ConvertArray(string input, Structs.ArrayOptions options)
+    {
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c) && !"{}[]()".Contains(c)));
+        string[] inputList = input.Split(",");
+
+        List<byte[]> result = new List<byte[]>();
+        foreach (string element in inputList)
+        {
+            if (element.StartsWith("\\x") || element.StartsWith("0x"))
+            {
+                result.Add(ConvertHex(element.Substring(2)));
+            }
+            else if (element.StartsWith("0b"))
+            {
+                result.Add(ConvertBits(element.Substring(2)));
+            }
+            else
+            {
+                InputValidator.CheckIfUint(element);
+                byte[] conversionResult = ConvertInt(uint.Parse(element)).Where((e) => e != 0).ToArray();
+                if (conversionResult.Length == 0)
+                {
+                    conversionResult = new byte[] { 0x00 };
+                }
+                result.Add(conversionResult);
+            }
+        }
+
+        return result.SelectMany(b => b).ToArray();
+    }
+
     private static string PadBits(string input, PaddingOrientation paddingOrientation)
     {
         int totalChars = 8 * ((input.Length + 7) / 8);
@@ -53,4 +85,5 @@ public static class InputConvertor
             return input.PadRight(totalChars, '0');
         }
     }
+
 }
