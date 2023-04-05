@@ -2,23 +2,25 @@ using System.Text;
 
 namespace Panbyte.Convertors;
 
-public class BytesConvertor : IConvertor
+public class Convertor
 {
 
     private byte[] input;
 
-    public BytesConvertor(string input)
+    public Convertor(byte[] input)
     {
-        this.input = Encoding.UTF8.GetBytes(input);
+        this.input = input;
     }
 
     public string ConvertToBits()
     {
+        // TODO
         throw new NotImplementedException();
     }
 
     public string ConvertToByteArray()
     {
+        // TODO
         throw new NotImplementedException();
     }
 
