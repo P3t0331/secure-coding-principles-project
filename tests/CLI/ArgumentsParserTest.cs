@@ -8,14 +8,14 @@ public class ArgumentsParserTest
     [TestMethod]
     public void TestAllArgsShortForm()
     {
-        string[] flags = new string[] { "-f", "int", "--from-options=little", "-t", "bits", "--to-options=left", "-i", "input.txt", "-o", "output.txt", "-d", ",", "-h" };
+        string[] flags = new string[] { "-f", "int", "--from-options=little", "-t", "bits", "--to-options=left", "-i", "input.txt", "-o", "output.txt", "-d", "," };
         TestAllArgs(flags);
     }
 
     [TestMethod]
     public void TestAllArgsLongForm()
     {
-        string[] flags = new string[] { "--from=int", "--from-options=little", "--to=bits", "--to-options=left", "--input=input.txt", "--output=output.txt", "--delimiter=,", "--help" };
+        string[] flags = new string[] { "--from=int", "--from-options=little", "--to=bits", "--to-options=left", "--input=input.txt", "--output=output.txt", "--delimiter=," };
         TestAllArgs(flags);
     }
 
@@ -46,43 +46,34 @@ public class ArgumentsParserTest
     public void TestNoArgs()
     {
         string[] args = new string[] { };
-        Structs.Arguments arguments = ArgumentsParser.Parse(args);
-
-        Assert.IsFalse(arguments.help);
-        Assert.IsNull(arguments.delimiter);
-        Assert.IsNull(arguments.inputFormat);
-        Assert.IsFalse(arguments.inputOptions.Any());
-        Assert.IsNull(arguments.inputPath);
-        Assert.IsNull(arguments.outputFormat);
-        Assert.IsFalse(arguments.outputOptions.Any());
-        Assert.IsNull(arguments.outputPath);
+        Assert.ThrowsException<ArgumentNullException>(() => ArgumentsParser.Parse(args));
     }
 
     [TestMethod]
     public void TestUndefinedArgument()
     {
-        string[] args = new string[] { "something" };
+        string[] args = new string[] { "-f", "int", "-t", "bits", "something" };
         Assert.ThrowsException<ArgumentException>(() => ArgumentsParser.Parse(args));
     }
 
     [TestMethod]
     public void TestUndefinedArgumentAfterValue()
     {
-        string[] args = new string[] { "-d", ",", "asd" };
+        string[] args = new string[] { "-f", "int", "-t", "bits", "-d", ",", "asd" };
         Assert.ThrowsException<ArgumentException>(() => ArgumentsParser.Parse(args));
     }
 
     [TestMethod]
     public void TestMissingValue()
     {
-        string[] args = new string[] { "-o" };
+        string[] args = new string[] { "-f", "int", "-t", "bits", "-o" };
         Assert.ThrowsException<ArgumentException>(() => ArgumentsParser.Parse(args));
     }
 
     [TestMethod]
     public void TestSameArgMultipleTimes()
     {
-        string[] args = new string[] { "-d", ".", "-d", "," };
+        string[] args = new string[] { "-f", "int", "-t", "bits", "-d", ".", "-d", "," };
         Assert.AreEqual(ArgumentsParser.Parse(args).delimiter, ",");
     }
 
@@ -105,7 +96,5 @@ public class ArgumentsParserTest
         Assert.AreEqual(arguments.inputPath, inputPath);
         Assert.AreEqual(arguments.outputPath, outputPath);
         Assert.AreEqual(arguments.delimiter, delimiter);
-
-        Assert.IsTrue(arguments.help);
     }
 }

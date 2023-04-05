@@ -2,22 +2,27 @@ namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
 
 [TestClass]
-
 public class BitsConvertorTest
 {
 
     [TestMethod]
-    [Ignore]
-    public void ConvertToBitsLeft()
+    public void ConvertFromBitsLeft()
     {
-        Assert.Inconclusive();
+        string input = "100111101001011";
+        var convertor = new Convertor();
+
+        string result = convertor.ConvertToBytes(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Left));
+        Assert.AreEqual("OK", result);
     }
 
     [TestMethod]
-    [Ignore]
-    public void ConvertToBitsRight()
+    public void ConvertFromBitsRight()
     {
-        Assert.Inconclusive();
+        string input = "100111101001011";
+        var convertor = new Convertor();
+
+        string result = convertor.ConvertToHex(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Right));
+        Assert.AreEqual("9e96", result);
     }
 
     [TestMethod]
@@ -28,10 +33,13 @@ public class BitsConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToBytes()
     {
-        Assert.Inconclusive();
+        string input = "100 1111 0100 1011";
+        var convertor = new Convertor();
+
+        string result = convertor.ConvertToBytes(InputConvertor.ConvertBits(input));
+        Assert.AreEqual("OK", result);
     }
 
     [TestMethod]

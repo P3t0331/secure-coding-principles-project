@@ -4,37 +4,29 @@ namespace Panbyte.Convertors;
 
 public class Convertor
 {
-
-    private byte[] input;
-
-    public Convertor(byte[] input)
+    public string ConvertToBits(byte[] input)
     {
-        this.input = input;
+        string bitString = string.Concat(input.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+        return bitString;
     }
 
-    public string ConvertToBits()
+    public string ConvertToByteArray(byte[] input, Structs.ArrayOptions options)
     {
         // TODO
         throw new NotImplementedException();
     }
 
-    public string ConvertToByteArray()
-    {
-        // TODO
-        throw new NotImplementedException();
-    }
-
-    public string ConvertToBytes()
+    public string ConvertToBytes(byte[] input)
     {
         return Encoding.UTF8.GetString(input);
     }
 
-    public string ConvertToHex()
+    public string ConvertToHex(byte[] input)
     {
-        return BitConverter.ToString(input).Replace("-", string.Empty);
+        return BitConverter.ToString(input).Replace("-", string.Empty).ToLower();
     }
 
-    public string ConvertToInt(Enums.Endianity endianity = Enums.Endianity.Big)
+    public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
         if (endianity == Enums.Endianity.Big)
         {

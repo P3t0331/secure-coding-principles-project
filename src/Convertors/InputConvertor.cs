@@ -13,7 +13,7 @@ public static class InputConvertor
     {
         byte[] result;
         result = BitConverter.GetBytes(input);
-        if (inputEndianity == Endianity.Big) 
+        if (inputEndianity == Endianity.Big)
         {
             Array.Reverse(result);
         }
@@ -27,5 +27,30 @@ public static class InputConvertor
                          .Where(x => x % 2 == 0)
                          .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
                          .ToArray();
+    }
+
+    public static byte[] ConvertBits(string input, PaddingOrientation paddingOrientation = PaddingOrientation.Left)
+    {
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        input = PadBits(input, paddingOrientation);
+
+        return Enumerable.Range(0, input.Length)
+                         .Where(x => x % 8 == 0)
+                         .Select(x => Convert.ToByte(input.Substring(x, 8), 2))
+                         .ToArray();
+    }
+
+    private static string PadBits(string input, PaddingOrientation paddingOrientation)
+    {
+        int totalChars = 8 * ((input.Length + 7) / 8);
+
+        if (paddingOrientation == PaddingOrientation.Left)
+        {
+            return input.PadLeft(totalChars, '0');
+        }
+        else
+        {
+            return input.PadRight(totalChars, '0');
+        }
     }
 }

@@ -7,13 +7,12 @@ public class BytesConvertorTest
 {
 
     [TestMethod]
-    [Ignore]
     public void ConvertToBits()
     {
         string input = "OK";
-        var convertor = new Convertor(InputConvertor.ConvertBytes(input));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToBits();
+        string result = convertor.ConvertToBits(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("0100111101001011", result);
     }
 
@@ -28,9 +27,9 @@ public class BytesConvertorTest
     public void ConvertToBytes()
     {
         string input = "test";
-        var convertor = new Convertor(InputConvertor.ConvertBytes(input));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToBytes();
+        string result = convertor.ConvertToBytes(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("test", result);
     }
 
@@ -38,9 +37,9 @@ public class BytesConvertorTest
     public void ConvertToHex()
     {
         string input = "test";
-        var convertor = new Convertor(InputConvertor.ConvertBytes(input));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToHex();
+        string result = convertor.ConvertToHex(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("74657374", result);
     }
 
@@ -48,9 +47,9 @@ public class BytesConvertorTest
     public void ConvertToInt()
     {
         string input = "test";
-        var convertor = new Convertor(InputConvertor.ConvertBytes(input));
+        var convertor = new Convertor();
 
-        string result = convertor.ConvertToInt();
+        string result = convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("1952805748", result);
     }
 }
