@@ -36,7 +36,7 @@ public class Convertor
                     }
                     else
                     {
-                        result += "\\x" + ConvertToHex(inputArray).Substring(0, 2);
+                        result += "'\\x" + ConvertToHex(inputArray).Substring(0, 2) + "'";
                     }
                     break;
                 case Enums.ArrayFormat.Binary:

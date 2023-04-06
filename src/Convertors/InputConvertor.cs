@@ -43,8 +43,11 @@ public static class InputConvertor
 
     public static byte[] ConvertArray(string input, Structs.ArrayOptions options)
     {
+        // This regex matches all brackets that are not enclosed with apostrophes
+        const string BRACKET_REGEX = @"(?<!')[\{\[\(]|[\}\]\)](?!')";
 
-        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c) && !"{}[]()".Contains(c)));
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        input = System.Text.RegularExpressions.Regex.Replace(input, BRACKET_REGEX, "");
         string[] inputList = input.Split(",");
 
         List<byte[]> result = new List<byte[]>();
@@ -76,7 +79,7 @@ public static class InputConvertor
                 }
                 result.Add(conversionResult);
             }
-            else
+            else if (element != "")
             {
                 throw new FormatException("This input is not a valid byte array format: " + element);
             }

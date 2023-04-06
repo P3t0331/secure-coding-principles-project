@@ -63,6 +63,8 @@ public class InputProcessor
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
                 return InputConvertor.ConvertBits(input, orientation);
             case Format.Array:
+                ArrayValidator.isNested(input);
+                ArrayValidator.CheckCorrectNesting(input);
                 return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.inputFormat);
