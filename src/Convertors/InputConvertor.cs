@@ -43,21 +43,30 @@ public static class InputConvertor
 
     public static byte[] ConvertArray(string input, Structs.ArrayOptions options)
     {
+
         input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c) && !"{}[]()".Contains(c)));
         string[] inputList = input.Split(",");
 
         List<byte[]> result = new List<byte[]>();
         foreach (string element in inputList)
         {
-            if (element.StartsWith("\\x") || element.StartsWith("0x"))
+            if (ArrayValidator.isHex(element))
             {
                 result.Add(ConvertHex(element.Substring(2)));
             }
-            else if (element.StartsWith("0b"))
+            else if (ArrayValidator.isCharHex(element))
+            {
+                result.Add(ConvertHex(element.Substring(3, 2)));
+            }
+            else if (ArrayValidator.isChar(element))
+            {
+                result.Add(ConvertBytes($"{element[1]}"));
+            }
+            else if (ArrayValidator.isBits(element))
             {
                 result.Add(ConvertBits(element.Substring(2)));
             }
-            else
+            else if (ArrayValidator.isDecimal(element))
             {
                 InputValidator.CheckIfUint(element);
                 byte[] conversionResult = ConvertInt(uint.Parse(element)).Where((e) => e != 0).ToArray();
@@ -66,6 +75,10 @@ public static class InputConvertor
                     conversionResult = new byte[] { 0x00 };
                 }
                 result.Add(conversionResult);
+            }
+            else
+            {
+                throw new FormatException("This input is not a valid byte array format: " + element);
             }
         }
 
