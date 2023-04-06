@@ -51,13 +51,12 @@ Output options:
 lowest addres; default).
 • little – Interpret bytes as an integer in little-endian representation (least significant byte at the
 lowest address).
-```
 
 Format: bits
 Input Options:
 • left – If necessary, pad input with zero bits from left (default)
 • right – If necessary, pad input with zero bits from right.
-
+```
 ## Examples
 ```
 $ echo 1234567890 | dotnet run -- -f int --from-options=little -t hex
