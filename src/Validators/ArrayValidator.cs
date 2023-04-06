@@ -8,7 +8,7 @@ public static class ArrayValidator
     private const string HEX_REGEX = @"^0x[0-9a-fA-F]{2}$";
     private const string BITS_REGEX = @"^0b[01]{1,8}$";
 
-    private const string BRACKET_REGEX = @"'[\[\]\{\}\(\)]'";
+    private const string BRACKET_REGEX = @"'[\[\]\{\}\(\)]'|''";
 
     public static void CheckCorrectNesting(in string input)
     {
@@ -54,8 +54,9 @@ public static class ArrayValidator
     public static bool isNested(in string input)
     {
         string filteredInput = extractBrackets(input);
-        return filteredInput.Length > 2;
+        return filteredInput.Length >= 2;
     }
+
 
     public static bool isHex(in string input)
     {

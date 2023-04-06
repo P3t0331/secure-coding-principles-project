@@ -29,7 +29,16 @@ public class InputProcessor
 
             for (int i = 0; i < inputs.Length; i++)
             {
-                outputLine += ProcessLine(inputs[i]);
+                if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
+                {
+                    ArrayValidator.CheckCorrectNesting(inputs[i]);
+                    outputLine += ProcessNestedArray(inputs[i]);
+                }
+                else
+                {
+                    outputLine += ProcessLine(inputs[i]);
+                }
+
 
                 if (i != inputs.Length - 1 && cliArgs.delimiter != null)
                 {
@@ -63,7 +72,6 @@ public class InputProcessor
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
                 return InputConvertor.ConvertBits(input, orientation);
             case Format.Array:
-                ArrayValidator.isNested(input);
                 ArrayValidator.CheckCorrectNesting(input);
                 return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
             default:
@@ -92,5 +100,91 @@ public class InputProcessor
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.outputFormat);
         }
+    }
+
+    private string ProcessNestedArray(string input)
+    {
+        string result = "";
+        ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
+
+        input = removeOuterBrackets(input);
+
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        string[] elementList = splitArray(input);
+
+        for (int i = 0; i < elementList.Length; i++)
+        {
+            if (!ArrayValidator.isNested(elementList[i]))
+            {
+                result += convertor.ConvertToByteArray(GetBytes(elementList[i]), options);
+            }
+            else
+            {
+                result += ProcessNestedArray(elementList[i]);
+            }
+
+            if (i != elementList.Length - 1)
+            {
+                result += ", ";
+            }
+        }
+
+        switch (options.bracket)
+        {
+            case Enums.Bracket.Curly:
+                return $"{{{result}}}";
+            case Enums.Bracket.Round:
+                return $"({result})";
+            case Enums.Bracket.Square:
+                return $"[{result}]";
+            default:
+                throw new Exception("Unknown bracket option: " + options.bracket);
+        }
+    }
+
+    private string removeOuterBrackets(string input)
+    {
+        if ((input.StartsWith('{') || input.StartsWith('[') || input.StartsWith('(')) &&
+            (input.EndsWith('}') || input.EndsWith(']') || input.EndsWith(')')))
+        {
+            input = input.Substring(1, input.Length - 2);
+        }
+
+        return input;
+    }
+
+    private string[] splitArray(string input)
+    {
+        List<string> result = new List<string> { };
+        int indexOfLastComma = -1;
+        int openCount = 0;
+        for (int i = 0; i < input.Length; i++)
+        {
+            switch (input[i])
+            {
+                case '{':
+                case '[':
+                case '(':
+                    openCount++;
+                    break;
+                case '}':
+                case ']':
+                case ')':
+                    openCount--;
+                    break;
+                case ',':
+                    if (openCount == 0)
+                    {
+                        result.Add(input.Substring(indexOfLastComma + 1, i - indexOfLastComma - 1));
+                        indexOfLastComma = i;
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        result.Add(input.Substring(indexOfLastComma + 1, input.Length - indexOfLastComma - 1));
+        return result.ToArray();
     }
 }

@@ -52,17 +52,9 @@ public class Convertor
             }
         }
 
-        switch (options.bracket)
-        {
-            case Enums.Bracket.Curly:
-                return $"{{{result}}}";
-            case Enums.Bracket.Round:
-                return $"({result})";
-            case Enums.Bracket.Square:
-                return $"[{result}]";
-            default:
-                return "";
-        }
+        return result;
+
+
     }
     public string ConvertToBytes(byte[] input)
     {
