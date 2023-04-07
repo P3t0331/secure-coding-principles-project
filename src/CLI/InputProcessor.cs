@@ -2,6 +2,7 @@ using Panbyte.Convertors;
 using Panbyte.Enums;
 using Panbyte.Structs;
 using Panbyte.Validators;
+using Panbyte.Utils;
 namespace Panbyte.CLI;
 
 public class InputProcessor
@@ -96,7 +97,7 @@ public class InputProcessor
                 return convertor.ConvertToBits(bytes);
             case Format.Array:
                 ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
-                return convertor.ConvertToByteArray(bytes, options);
+                return ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(bytes, options), options);
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.outputFormat);
         }
@@ -107,10 +108,10 @@ public class InputProcessor
         string result = "";
         ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
 
-        input = removeOuterBrackets(input);
+        input = ByteArrayUtils.removeOuterBrackets(input);
 
         input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
-        string[] elementList = splitArray(input);
+        string[] elementList = ByteArrayUtils.splitArray(input);
 
         for (int i = 0; i < elementList.Length; i++)
         {
@@ -129,62 +130,6 @@ public class InputProcessor
             }
         }
 
-        switch (options.bracket)
-        {
-            case Enums.Bracket.Curly:
-                return $"{{{result}}}";
-            case Enums.Bracket.Round:
-                return $"({result})";
-            case Enums.Bracket.Square:
-                return $"[{result}]";
-            default:
-                throw new Exception("Unknown bracket option: " + options.bracket);
-        }
-    }
-
-    private string removeOuterBrackets(string input)
-    {
-        if ((input.StartsWith('{') || input.StartsWith('[') || input.StartsWith('(')) &&
-            (input.EndsWith('}') || input.EndsWith(']') || input.EndsWith(')')))
-        {
-            input = input.Substring(1, input.Length - 2);
-        }
-
-        return input;
-    }
-
-    private string[] splitArray(string input)
-    {
-        List<string> result = new List<string> { };
-        int indexOfLastComma = -1;
-        int openCount = 0;
-        for (int i = 0; i < input.Length; i++)
-        {
-            switch (input[i])
-            {
-                case '{':
-                case '[':
-                case '(':
-                    openCount++;
-                    break;
-                case '}':
-                case ']':
-                case ')':
-                    openCount--;
-                    break;
-                case ',':
-                    if (openCount == 0)
-                    {
-                        result.Add(input.Substring(indexOfLastComma + 1, i - indexOfLastComma - 1));
-                        indexOfLastComma = i;
-                    };
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        result.Add(input.Substring(indexOfLastComma + 1, input.Length - indexOfLastComma - 1));
-        return result.ToArray();
+        return ByteArrayUtils.appendBrackets(result, options);
     }
 }

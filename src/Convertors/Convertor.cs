@@ -54,7 +54,6 @@ public class Convertor
 
         return result;
 
-
     }
     public string ConvertToBytes(byte[] input)
     {
