@@ -2,6 +2,7 @@ using Panbyte.Convertors;
 using Panbyte.Enums;
 using Panbyte.Structs;
 using Panbyte.Validators;
+using Panbyte.Utils;
 namespace Panbyte.CLI;
 
 public class InputProcessor
@@ -29,7 +30,17 @@ public class InputProcessor
 
             for (int i = 0; i < inputs.Length; i++)
             {
-                outputLine += ProcessLine(inputs[i]);
+                if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
+                {
+                    ArrayValidator.CheckCorrectNesting(inputs[i]);
+                    ArrayValidator.CheckValidPosition(inputs[i]);
+                    outputLine += ProcessNestedArray(inputs[i]);
+                }
+                else
+                {
+                    outputLine += ProcessLine(inputs[i]);
+                }
+
 
                 if (i != inputs.Length - 1 && cliArgs.delimiter != null)
                 {
@@ -62,6 +73,9 @@ public class InputProcessor
                 InputValidator.CheckIfBits(input);
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
                 return InputConvertor.ConvertBits(input, orientation);
+            case Format.Array:
+                ArrayValidator.CheckCorrectNesting(input);
+                return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.inputFormat);
         }
@@ -84,9 +98,39 @@ public class InputProcessor
                 return convertor.ConvertToBits(bytes);
             case Format.Array:
                 ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
-                return convertor.ConvertToByteArray(bytes, options);
+                return ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(bytes, options), options);
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.outputFormat);
         }
+    }
+
+    private string ProcessNestedArray(string input)
+    {
+        string result = "";
+        ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
+
+        input = ByteArrayUtils.removeOuterBrackets(input);
+
+        input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        string[] elementList = ByteArrayUtils.splitArray(input);
+
+        for (int i = 0; i < elementList.Length; i++)
+        {
+            if (!ArrayValidator.isNested(elementList[i]))
+            {
+                result += convertor.ConvertToByteArray(GetBytes(elementList[i]), options);
+            }
+            else
+            {
+                result += ProcessNestedArray(elementList[i]);
+            }
+
+            if (i != elementList.Length - 1)
+            {
+                result += ", ";
+            }
+        }
+
+        return ByteArrayUtils.appendBrackets(result, options);
     }
 }

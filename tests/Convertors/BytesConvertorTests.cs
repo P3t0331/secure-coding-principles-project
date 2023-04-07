@@ -1,10 +1,13 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
+using Panbyte.Utils;
 
 [TestClass]
 
 public class BytesConvertorTest
 {
+
+    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertToBits()
@@ -17,10 +20,13 @@ public class BytesConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToByteArray()
     {
+        string input = "abcd";
+        var convertor = new Convertor();
 
+        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBytes(input), defaultOptions), defaultOptions);
+        Assert.AreEqual("{0x61, 0x62, 0x63, 0x64}", result);
     }
 
     [TestMethod]

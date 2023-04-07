@@ -1,4 +1,5 @@
 using System.Text;
+using System.Numerics;
 
 namespace Panbyte.Convertors;
 
@@ -12,10 +13,46 @@ public class Convertor
 
     public string ConvertToByteArray(byte[] input, Structs.ArrayOptions options)
     {
-        // TODO
-        throw new NotImplementedException();
-    }
+        string result = "";
 
+        for (int i = 0; i < input.Length; i++)
+        {
+            byte[] inputArray = new byte[1];
+            inputArray[0] = input[i];
+            switch (options.format)
+            {
+                case Enums.ArrayFormat.Hex:
+                    result += "0x" + ConvertToHex(inputArray).Replace("0", "");
+                    break;
+                case Enums.ArrayFormat.Decimal:
+                    result += ConvertToInt(inputArray, Enums.Endianity.Little);
+                    break;
+                case Enums.ArrayFormat.Char:
+                    if (inputArray[0] >= 32 && inputArray[0] <= 126)
+                    {
+                        result += ConvertToBytes(inputArray);
+                    }
+                    else
+                    {
+                        result += "'\\x" + ConvertToHex(inputArray).Substring(0, 2) + "'";
+                    }
+                    break;
+                case Enums.ArrayFormat.Binary:
+                    result += "0b" + ConvertToBits(inputArray).TrimStart('0');
+                    break;
+                default:
+                    break;
+            }
+
+            if (i != input.Length - 1)
+            {
+                result += ", ";
+            }
+        }
+
+        return result;
+
+    }
     public string ConvertToBytes(byte[] input)
     {
         return Encoding.UTF8.GetString(input);
@@ -32,6 +69,6 @@ public class Convertor
         {
             Array.Reverse(input);
         }
-        return BitConverter.ToUInt32(input, 0).ToString();
+        return new BigInteger(input).ToString();
     }
 }
