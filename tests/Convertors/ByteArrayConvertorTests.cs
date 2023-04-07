@@ -13,17 +13,7 @@ public class ByteArrayConvertorTest
     private Structs.ArrayOptions toCharFormatOptions = new Structs.ArrayOptions(bracket: Enums.Bracket.Curly, format: Enums.ArrayFormat.Char);
 
     [TestMethod]
-    public void ConvertFromHexToArray()
-    {
-        string input = "01020304";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertHex(input), defaultOptions), defaultOptions);
-        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
-    }
-
-    [TestMethod]
-    public void ConvertFromArrayToHex()
+    public void ConvertToHex()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
         var convertor = new Convertor();
@@ -32,18 +22,9 @@ public class ByteArrayConvertorTest
         Assert.AreEqual("01020304", result);
     }
 
-    [TestMethod]
-    public void ConvertFromBitsToArray()
-    {
-        string input = "00000001000000100000001100000100";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBits(input), defaultOptions), defaultOptions);
-        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
-    }
 
     [TestMethod]
-    public void ConvertFromArrayToBits()
+    public void ConvertToBits()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
         var convertor = new Convertor();
@@ -52,18 +33,9 @@ public class ByteArrayConvertorTest
         Assert.AreEqual("00000001000000100000001100000100", result);
     }
 
-    [TestMethod]
-    public void ConvertFromBytesToArray()
-    {
-        string input = "abcd";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBytes(input), defaultOptions), defaultOptions);
-        Assert.AreEqual("{0x61, 0x62, 0x63, 0x64}", result);
-    }
 
     [TestMethod]
-    public void ConvertFromArrayToBytes()
+    public void ConvertToBytes()
     {
         string input = @"{0x61, 98, 0b1100011, '\x64'}";
         var convertor = new Convertor();
@@ -72,18 +44,9 @@ public class ByteArrayConvertorTest
         Assert.AreEqual("abcd", result);
     }
 
-    [TestMethod]
-    public void ConvertFromIntToArray()
-    {
-        string input = "16909060";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertInt(uint.Parse(input)), defaultOptions), defaultOptions);
-        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
-    }
 
     [TestMethod]
-    public void ConvertFromArrayToInt()
+    public void ConvertToInt()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
         var convertor = new Convertor();
@@ -93,7 +56,7 @@ public class ByteArrayConvertorTest
     }
 
     [TestMethod]
-    public void ConvertFromHexToArraySquareBrackets()
+    public void ConvertToArraySquareBrackets()
     {
         string input = "01020304";
         var convertor = new Convertor();
@@ -103,7 +66,7 @@ public class ByteArrayConvertorTest
     }
 
     [TestMethod]
-    public void ConvertFromHexToRoundBrackets()
+    public void ConvertToArrayRoundBrackets()
     {
         string input = "01020304";
         var convertor = new Convertor();
@@ -113,7 +76,7 @@ public class ByteArrayConvertorTest
     }
 
     [TestMethod]
-    public void ConvertFromHexToArrayDecimalOutput()
+    public void ConvertToArrayDecimalOutput()
     {
         string input = "01020304";
         var convertor = new Convertor();
@@ -123,7 +86,7 @@ public class ByteArrayConvertorTest
     }
 
     [TestMethod]
-    public void ConvertFromHexToArrayBinaryOutput()
+    public void ConvertToArrayBinaryOutput()
     {
         string input = "01020304";
         var convertor = new Convertor();
@@ -133,7 +96,7 @@ public class ByteArrayConvertorTest
     }
 
     [TestMethod]
-    public void ConvertFromHexToArrayCharOutput()
+    public void ConvertToArrayCharOutput()
     {
         string input = "01020304";
         var convertor = new Convertor();

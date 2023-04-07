@@ -1,26 +1,77 @@
 namespace Panbyte.Validators;
+using Panbyte.Utils;
 
 
 public static class ArrayValidator
 {
-    private const string DEC_REGEX = @"^'[ -~]'$";
+    private const string CHAR_REGEX = @"^'[ -~]{1}'$";
     private const string XHEX_REGEX = @"^'\\x[0-9a-fA-F]{2}'$";
     private const string HEX_REGEX = @"^0x[0-9a-fA-F]{2}$";
     private const string BITS_REGEX = @"^0b[01]{1,8}$";
 
-    private const string BRACKET_REGEX = @"'[\[\]\{\}\(\)]'|''";
+    public static void CheckValidPosition(in string input)
+    {
+        string inputNoWhiteSpace = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
+        string filteredInput = ByteArrayUtils.removeBracketsInApostrophes(inputNoWhiteSpace);
 
+        bool lastBracketIsOpen = false;
+        bool isCommaPresent = false;
+        bool characterBetweenBrackets = false;
+
+        for (int i = 0; i < filteredInput.Length; i++)
+        {
+            switch (filteredInput[i])
+            {
+                case '{':
+                case '[':
+                case '(':
+                    if ((characterBetweenBrackets || !isCommaPresent && i != 0) && !(!characterBetweenBrackets && lastBracketIsOpen))
+                    {
+                        throw new FormatException("Invalid array format");
+                    }
+
+                    isCommaPresent = false;
+                    characterBetweenBrackets = false;
+                    lastBracketIsOpen = true;
+                    break;
+                case '}':
+                case ']':
+                case ')':
+                    if (!lastBracketIsOpen && !isCommaPresent && characterBetweenBrackets)
+                    {
+                        throw new FormatException("Invalid array format");
+                    }
+
+                    isCommaPresent = false;
+                    characterBetweenBrackets = false;
+                    lastBracketIsOpen = false;
+                    break;
+                case ',':
+                    isCommaPresent = true;
+                    characterBetweenBrackets = false;
+                    break;
+                default:
+                    if (!isCommaPresent && !lastBracketIsOpen)
+                    {
+                        throw new FormatException("Invalid array format");
+                    }
+                    characterBetweenBrackets = true;
+                    break;
+            }
+        }
+    }
     public static void CheckCorrectNesting(in string input)
     {
-        string filteredInput = extractBrackets(input);
+        string filteredInput = ByteArrayUtils.extractBrackets(input);
+        filteredInput = ByteArrayUtils.removeBracketsInApostrophes(filteredInput);
 
         int curlyOpenCount = 0;
         int squareOpenCount = 0;
         int roundOpenCount = 0;
 
-        foreach (char c in filteredInput)
+        for (int i = 0; i < filteredInput.Length; i++)
         {
-            switch (c)
+            switch (filteredInput[i])
             {
                 case '{':
                     curlyOpenCount++;
@@ -41,10 +92,14 @@ public static class ArrayValidator
                     roundOpenCount--;
                     break;
                 default:
-                    throw new Exception("Unexpected character: " + c);
+                    throw new Exception("Unexpected character: " + filteredInput[i]);
+            }
+
+            if (curlyOpenCount == 0 && squareOpenCount == 0 && roundOpenCount == 0 && i < filteredInput.Length - 1)
+            {
+                throw new FormatException("Input is not correctly nested: " + input);
             }
         }
-
 
         if (curlyOpenCount != 0 || squareOpenCount != 0 || roundOpenCount != 0)
         {
@@ -53,7 +108,8 @@ public static class ArrayValidator
     }
     public static bool isNested(in string input)
     {
-        string filteredInput = extractBrackets(input);
+        string filteredInput = ByteArrayUtils.extractBrackets(input);
+        filteredInput = ByteArrayUtils.removeBracketsInApostrophes(filteredInput);
         return filteredInput.Length >= 2;
     }
 
@@ -68,7 +124,7 @@ public static class ArrayValidator
     }
     public static bool isChar(in string input)
     {
-        return System.Text.RegularExpressions.Regex.IsMatch(input, DEC_REGEX);
+        return System.Text.RegularExpressions.Regex.IsMatch(input, CHAR_REGEX);
     }
     public static bool isDecimal(in string input)
     {
@@ -80,13 +136,5 @@ public static class ArrayValidator
         return System.Text.RegularExpressions.Regex.IsMatch(input, BITS_REGEX);
     }
 
-    private static string extractBrackets(in string input)
-    {
-        // Remove any character that is not a bracket or an apostrophe
-        string result = String.Concat((input.Where((c) => "()[]{}'".Contains(c))));
-        // Remove brackets enclosed in apostrophes
-        result = System.Text.RegularExpressions.Regex.Replace(result, BRACKET_REGEX, "");
 
-        return result;
-    }
 }

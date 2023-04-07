@@ -1,11 +1,14 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
 using Panbyte.Enums;
+using Panbyte.Utils;
 
 [TestClass]
 
 public class IntConvertorTest
 {
+
+    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertToBits()
@@ -18,10 +21,13 @@ public class IntConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToByteArray()
     {
+        string input = "16909060";
+        var convertor = new Convertor();
 
+        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertInt(uint.Parse(input)), defaultOptions), defaultOptions);
+        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
     }
 
     [TestMethod]

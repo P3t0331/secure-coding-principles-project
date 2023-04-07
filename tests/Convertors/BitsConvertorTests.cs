@@ -1,9 +1,11 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
+using Panbyte.Utils;
 
 [TestClass]
 public class BitsConvertorTest
 {
+    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertFromBitsLeft()
@@ -26,10 +28,13 @@ public class BitsConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToByteArray()
     {
-        Assert.Inconclusive();
+        string input = "00000001000000100000001100000100";
+        var convertor = new Convertor();
+
+        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBits(input), defaultOptions), defaultOptions);
+        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
     }
 
     [TestMethod]
@@ -43,23 +48,23 @@ public class BitsConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
-    public void ConvertToBytesWhiteSpace()
-    {
-        Assert.Inconclusive();
-    }
-
-    [TestMethod]
-    [Ignore]
     public void ConvertToHex()
     {
-        Assert.Inconclusive();
+        string input = "100111101001011";
+        var convertor = new Convertor();
+
+        string result = convertor.ConvertToHex(InputConvertor.ConvertBits(input));
+        Assert.AreEqual("4f4b", result);
     }
 
     [TestMethod]
     [Ignore]
     public void ConvertToInt()
     {
-        Assert.Inconclusive();
+        string input = "100111101001011";
+        var convertor = new Convertor();
+
+        string result = convertor.ConvertToInt(InputConvertor.ConvertBits(input));
+        Assert.AreEqual("20299", result);
     }
 }

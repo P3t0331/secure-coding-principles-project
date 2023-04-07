@@ -33,6 +33,7 @@ public class InputProcessor
                 if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
                 {
                     ArrayValidator.CheckCorrectNesting(inputs[i]);
+                    ArrayValidator.CheckValidPosition(inputs[i]);
                     outputLine += ProcessNestedArray(inputs[i]);
                 }
                 else

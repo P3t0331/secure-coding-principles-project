@@ -1,10 +1,13 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
+using Panbyte.Utils;
 
 [TestClass]
 
 public class HexConvertorTest
 {
+
+    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertToBits()
@@ -17,10 +20,13 @@ public class HexConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToByteArray()
     {
+        string input = "01020304";
+        var convertor = new Convertor();
 
+        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertHex(input), defaultOptions), defaultOptions);
+        Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
     }
 
     [TestMethod]

@@ -2,6 +2,9 @@ namespace Panbyte.Utils;
 
 public static class ByteArrayUtils
 {
+
+    private const string BRACKET_REGEX = @"'[\[\]\{\}\(\)]'|''";
+
     public static string appendBrackets(string input, Structs.ArrayOptions options)
     {
         switch (options.bracket)
@@ -26,6 +29,19 @@ public static class ByteArrayUtils
         }
 
         return input;
+    }
+
+    public static string extractBrackets(in string input)
+    {
+        // Remove any character that is not a bracket or an apostrophe
+        return String.Concat((input.Where((c) => "()[]{}'".Contains(c))));
+    }
+    public static string removeBracketsInApostrophes(in string input)
+    {
+
+        // Remove brackets enclosed in apostrophes
+        return System.Text.RegularExpressions.Regex.Replace(input, BRACKET_REGEX, "");
+
     }
 
     public static string[] splitArray(string input)
