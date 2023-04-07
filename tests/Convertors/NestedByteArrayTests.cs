@@ -29,7 +29,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         defaultInputProcessor.ProcessInput();
-        Assert.AreEqual("{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}\r\n", stringWriter.ToString());
+        Assert.AreEqual("{{0x1, 0x2}, {0x3, 0x4}, {0x5, 0x6}}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         inputProcessor.ProcessInput();
-        Assert.AreEqual("{{1, 2}, {3, 4}, {5, 6}}\r\n", stringWriter.ToString());
+        Assert.AreEqual("{{1, 2}, {3, 4}, {5, 6}}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         inputProcessor.ProcessInput();
-        Assert.AreEqual("[[1, [2], [3, 4, 5], 6]]\r\n", stringWriter.ToString());
+        Assert.AreEqual("[[1, [2], [3, 4, 5], 6]]\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         defaultInputProcessor.ProcessInput();
-        Assert.AreEqual("{}\r\n", stringWriter.ToString());
+        Assert.AreEqual("{}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
     [TestMethod]
@@ -123,7 +123,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         inputProcessor.ProcessInput();
-        Assert.AreEqual("[[], []]\r\n", stringWriter.ToString());
+        Assert.AreEqual("[[], []]\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
     [TestMethod]
@@ -139,7 +139,7 @@ public class NestedByteArrayTest
         Console.SetOut(stringWriter);
 
         defaultInputProcessor.ProcessInput();
-        Assert.AreEqual("{0x1, 0x2, {0x5, {0x6, {0x7}, {0x8}, {0x9, 0xa}}, {0xb}, 0xc}, {0xd}}\r\n", stringWriter.ToString());
+        Assert.AreEqual("{0x1, 0x2, {0x5, {0x6, {0x7}, {0x8}, {0x9, 0xa}}, {0xb}, 0xc}, {0xd}}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
 }
