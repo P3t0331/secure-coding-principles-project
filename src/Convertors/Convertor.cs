@@ -24,9 +24,6 @@ public class Convertor
                     result += "0x" + ConvertToHex(inputArray).Replace("0", "");
                     break;
                 case Enums.ArrayFormat.Decimal:
-                    // Array needs to be at least 4 bytes long for Int conversion
-                    inputArray = new byte[4];
-                    inputArray[0] = input[i];
                     result += ConvertToInt(inputArray, Enums.Endianity.Little);
                     break;
                 case Enums.ArrayFormat.Char:
@@ -67,9 +64,17 @@ public class Convertor
 
     public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
+
+
         if (endianity == Enums.Endianity.Big)
         {
             Array.Reverse(input);
+        }
+        if (input.Length < 4)
+        {
+            byte[] temp = new byte[4];
+            input.CopyTo(temp, 0);
+            input = temp;
         }
         return BitConverter.ToUInt32(input, 0).ToString();
     }

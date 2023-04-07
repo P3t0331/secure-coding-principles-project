@@ -58,7 +58,6 @@ public class BitsConvertorTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ConvertToInt()
     {
         string input = "100111101001011";

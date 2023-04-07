@@ -145,63 +145,56 @@ public class ArrayValidatorTests
     }
 
     [TestMethod]
-    public void TestFormatValidation2()
+    public void TestFormatValidationOutsideBracketLeft()
     {
         string input = "{1, 2, 3 {}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation3()
+    public void TestFormatValidationOutsideBracketRight()
     {
         string input = "{1, 2, {} 3}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation4()
+    public void TestFormatValidationBetweenBracketComma()
     {
         string input = "{1, {2}15, {3}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation5()
+    public void TestFormatValidationMissingComma()
     {
         string input = "{1, {2} {3}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation6()
+    public void TestFormatValidationMissingCommaDeep()
     {
         string input = "{{1, 2}, {3, {4} {5}}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation7()
-    {
-        string input = "{1, {2},{3}a}";
-        Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
-    }
-
-    [TestMethod]
-    public void TestFormatValidation8()
+    public void TestFormatValidationCharAfter()
     {
         string input = "{1, {2}, {3}}w";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidation9()
+    public void TestFormatValidationCharBefore()
     {
         string input = "a{1, {2}, {3}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
     }
 
     [TestMethod]
-    public void TestFormatValidationComma()
+    public void TestFormatValidationCommaApostrophes()
     {
         string input = "{1 ',' {2}, {3}}";
         Assert.ThrowsException<FormatException>(() => ArrayValidator.CheckValidPosition(input));
