@@ -1,4 +1,5 @@
 using System.Text;
+using System.Numerics;
 
 namespace Panbyte.Convertors;
 
@@ -64,18 +65,10 @@ public class Convertor
 
     public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
-
-
         if (endianity == Enums.Endianity.Big)
         {
             Array.Reverse(input);
         }
-        if (input.Length < 4)
-        {
-            byte[] temp = new byte[4];
-            input.CopyTo(temp, 0);
-            input = temp;
-        }
-        return BitConverter.ToUInt32(input, 0).ToString();
+        return new BigInteger(input).ToString();
     }
 }

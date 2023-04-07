@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "panbyte": {
+      "commandName": "Project",
+      "commandLineArgs": "-f hex -t int"
+    }
+  }
+}

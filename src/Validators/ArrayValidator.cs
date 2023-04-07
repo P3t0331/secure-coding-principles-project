@@ -92,7 +92,7 @@ public static class ArrayValidator
                     roundOpenCount--;
                     break;
                 default:
-                    throw new Exception("Unexpected character: " + filteredInput[i]);
+                    throw new FormatException("Unexpected character: " + filteredInput[i]);
             }
 
             if (curlyOpenCount == 0 && squareOpenCount == 0 && roundOpenCount == 0 && i < filteredInput.Length - 1)
