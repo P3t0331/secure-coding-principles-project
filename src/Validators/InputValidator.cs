@@ -1,15 +1,16 @@
 ﻿namespace Panbyte.Validators;
+using System.Text.RegularExpressions;
 
-
-public static class InputValidator
+public static partial class InputValidator
 {
-    private const string HEX_REGEX = @"\A\b[0-9a-fA-F]+\b\Z";
+    [GeneratedRegex(@"\A\b[0-9a-fA-F]+\b\Z")]
+    private static partial Regex HEX_REGEX();
 
     public static void CheckIfUint(in string input)
     {
         try
         {
-            uint.Parse(input);
+            _ = uint.Parse(input);
         }
         catch (OverflowException)
         {
@@ -28,7 +29,7 @@ public static class InputValidator
     public static void CheckIfHex(in string input)
     {
         string noWhitespace = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
-        bool isHex = System.Text.RegularExpressions.Regex.IsMatch(noWhitespace, HEX_REGEX);
+        bool isHex = HEX_REGEX().IsMatch(noWhitespace);
         bool isEven = noWhitespace.Length % 2 == 0;
 
         if (!isHex || !isEven)

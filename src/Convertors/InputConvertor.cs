@@ -1,10 +1,14 @@
 using Panbyte.Enums;
 using System.Text;
 using Panbyte.Validators;
+using System.Text.RegularExpressions;
 namespace Panbyte.Convertors;
 
-public static class InputConvertor
+public static partial class InputConvertor
 {
+    [GeneratedRegex(@"(?<!')[\{\[\(]|[\}\]\)](?!')")]
+    private static partial Regex BRACKET_REGEX();
+
     public static byte[] ConvertBytes(string input)
     {
         return Encoding.UTF8.GetBytes(input);
@@ -44,10 +48,8 @@ public static class InputConvertor
     public static byte[] ConvertArray(string input, Structs.ArrayOptions options)
     {
         // This regex matches all brackets that are not enclosed with apostrophes
-        const string BRACKET_REGEX = @"(?<!')[\{\[\(]|[\}\]\)](?!')";
-
         input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
-        input = System.Text.RegularExpressions.Regex.Replace(input, BRACKET_REGEX, "");
+        input = BRACKET_REGEX().Replace(input, "");
         string[] inputList = input.Split(",");
 
         List<byte[]> result = new List<byte[]>();

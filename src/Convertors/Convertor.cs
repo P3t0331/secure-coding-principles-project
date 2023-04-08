@@ -3,17 +3,17 @@ using System.Numerics;
 
 namespace Panbyte.Convertors;
 
-public class Convertor
+public static class Convertor
 {
-    public string ConvertToBits(byte[] input)
+    public static string ConvertToBits(byte[] input)
     {
         string bitString = string.Concat(input.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
         return bitString;
     }
 
-    public string ConvertToByteArray(byte[] input, Structs.ArrayOptions options)
+    public static string ConvertToByteArray(byte[] input, Structs.ArrayOptions options)
     {
-        string result = "";
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < input.Length; i++)
         {
@@ -22,23 +22,27 @@ public class Convertor
             switch (options.format)
             {
                 case Enums.ArrayFormat.Hex:
-                    result += "0x" + ConvertToHex(inputArray).Replace("0", "");
+                    result.Append("0x");
+                    result.Append(ConvertToHex(inputArray).Replace("0", ""));
                     break;
                 case Enums.ArrayFormat.Decimal:
-                    result += ConvertToInt(inputArray, Enums.Endianity.Little);
+                    result.Append(ConvertToInt(inputArray, Enums.Endianity.Little));
                     break;
                 case Enums.ArrayFormat.Char:
                     if (inputArray[0] >= 32 && inputArray[0] <= 126)
                     {
-                        result += ConvertToBytes(inputArray);
+                        result.Append(ConvertToBytes(inputArray));
                     }
                     else
                     {
-                        result += "'\\x" + ConvertToHex(inputArray).Substring(0, 2) + "'";
+                        result.Append("'\\x");
+                        result.Append(ConvertToHex(inputArray).AsSpan(0, 2));
+                        result.Append('\'');
                     }
                     break;
                 case Enums.ArrayFormat.Binary:
-                    result += "0b" + ConvertToBits(inputArray).TrimStart('0');
+                    result.Append("0b");
+                    result.Append(ConvertToBits(inputArray).TrimStart('0'));
                     break;
                 default:
                     break;
@@ -46,24 +50,24 @@ public class Convertor
 
             if (i != input.Length - 1)
             {
-                result += ", ";
+                result.Append(", ");
             }
         }
 
-        return result;
+        return result.ToString();
 
     }
-    public string ConvertToBytes(byte[] input)
+    public static string ConvertToBytes(byte[] input)
     {
         return Encoding.UTF8.GetString(input);
     }
 
-    public string ConvertToHex(byte[] input)
+    public static string ConvertToHex(byte[] input)
     {
         return BitConverter.ToString(input).Replace("-", string.Empty).ToLower();
     }
 
-    public string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
+    public static string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
         if (endianity == Enums.Endianity.Big)
         {

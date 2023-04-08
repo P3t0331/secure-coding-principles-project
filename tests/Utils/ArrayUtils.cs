@@ -2,7 +2,7 @@ namespace Panbyte.Tests.Utils;
 
 public class ArrayUtils
 {
-    public static bool Compare<T>(T[] a, T[] b)
+    public static bool Compare(string[] a, string[] b)
     {
         if (a.Length != b.Length)
         {

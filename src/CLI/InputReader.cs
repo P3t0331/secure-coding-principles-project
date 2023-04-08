@@ -2,7 +2,7 @@ namespace Panbyte.CLI;
 
 public class InputReader
 {
-    StreamReader? fileReader;
+    readonly StreamReader? fileReader;
 
     public InputReader(string? inputPath)
     {

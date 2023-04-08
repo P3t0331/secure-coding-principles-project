@@ -3,12 +3,13 @@ using Panbyte.Enums;
 using Panbyte.Structs;
 using Panbyte.Validators;
 using Panbyte.Utils;
+using System.Text;
+
 namespace Panbyte.CLI;
 
 public class InputProcessor
 {
     private readonly Structs.Arguments cliArgs;
-    private readonly Convertor convertor = new Convertor();
     private readonly InputReader inputReader;
     private readonly OutputWriter outputWriter;
 
@@ -26,7 +27,7 @@ public class InputProcessor
         while ((inputLine = inputReader.ReadLine()) != null)
         {
             string[] inputs = inputLine.Split(cliArgs.delimiter);
-            String outputLine = "";
+            StringBuilder outputLine = new StringBuilder();
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -34,21 +35,21 @@ public class InputProcessor
                 {
                     ArrayValidator.CheckCorrectNesting(inputs[i]);
                     ArrayValidator.CheckValidPosition(inputs[i]);
-                    outputLine += ProcessNestedArray(inputs[i]);
+                    outputLine.Append(ProcessNestedArray(inputs[i]));
                 }
                 else
                 {
-                    outputLine += ProcessLine(inputs[i]);
+                    outputLine.Append(ProcessLine(inputs[i]));
                 }
 
 
                 if (i != inputs.Length - 1 && cliArgs.delimiter != null)
                 {
-                    outputLine += cliArgs.delimiter;
+                    outputLine.Append(cliArgs.delimiter);
                 }
             }
 
-            outputWriter.WriteLine(outputLine);
+            outputWriter.WriteLine(outputLine.ToString());
         }
 
         inputReader.Close();
@@ -88,17 +89,17 @@ public class InputProcessor
         switch (cliArgs.outputFormat)
         {
             case Format.Bytes:
-                return convertor.ConvertToBytes(bytes);
+                return Convertor.ConvertToBytes(bytes);
             case Format.Hex:
-                return convertor.ConvertToHex(bytes);
+                return Convertor.ConvertToHex(bytes);
             case Format.Int:
                 Endianity endianity = OptionsParser.ParseEndianity(cliArgs.outputOptions);
-                return convertor.ConvertToInt(bytes, endianity);
+                return Convertor.ConvertToInt(bytes, endianity);
             case Format.Bits:
-                return convertor.ConvertToBits(bytes);
+                return Convertor.ConvertToBits(bytes);
             case Format.Array:
                 ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
-                return ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(bytes, options), options);
+                return ByteArrayUtils.appendBrackets(Convertor.ConvertToByteArray(bytes, options), options);
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.outputFormat);
         }
@@ -106,7 +107,7 @@ public class InputProcessor
 
     private string ProcessNestedArray(string input)
     {
-        string result = "";
+        StringBuilder result = new StringBuilder();
         ArrayOptions options = OptionsParser.ParseArrayOptions(cliArgs.outputOptions);
 
         input = ByteArrayUtils.removeOuterBrackets(input);
@@ -118,19 +119,19 @@ public class InputProcessor
         {
             if (!ArrayValidator.isNested(elementList[i]))
             {
-                result += convertor.ConvertToByteArray(GetBytes(elementList[i]), options);
+                result.Append(Convertor.ConvertToByteArray(GetBytes(elementList[i]), options));
             }
             else
             {
-                result += ProcessNestedArray(elementList[i]);
+                result.Append(ProcessNestedArray(elementList[i]));
             }
 
             if (i != elementList.Length - 1)
             {
-                result += ", ";
+                result.Append(", ");
             }
         }
 
-        return ByteArrayUtils.appendBrackets(result, options);
+        return ByteArrayUtils.appendBrackets(result.ToString(), options);
     }
 }

@@ -13,9 +13,7 @@ public class BytesConvertorTest
     public void ConvertToBits()
     {
         string input = "OK";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToBits(InputConvertor.ConvertBytes(input));
+        string result = Convertor.ConvertToBits(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("0100111101001011", result);
     }
 
@@ -23,9 +21,7 @@ public class BytesConvertorTest
     public void ConvertToByteArray()
     {
         string input = "abcd";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBytes(input), defaultOptions), defaultOptions);
+        string result = ByteArrayUtils.appendBrackets(Convertor.ConvertToByteArray(InputConvertor.ConvertBytes(input), defaultOptions), defaultOptions);
         Assert.AreEqual("{0x61, 0x62, 0x63, 0x64}", result);
     }
 
@@ -33,9 +29,7 @@ public class BytesConvertorTest
     public void ConvertToBytes()
     {
         string input = "test";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToBytes(InputConvertor.ConvertBytes(input));
+        string result = Convertor.ConvertToBytes(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("test", result);
     }
 
@@ -43,9 +37,7 @@ public class BytesConvertorTest
     public void ConvertToHex()
     {
         string input = "test";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToHex(InputConvertor.ConvertBytes(input));
+        string result = Convertor.ConvertToHex(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("74657374", result);
     }
 
@@ -53,9 +45,7 @@ public class BytesConvertorTest
     public void ConvertToInt()
     {
         string input = "test";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("1952805748", result);
     }
 }

@@ -1,6 +1,8 @@
+namespace Panbyte.CLI;
+
 public class OutputWriter
 {
-    private StreamWriter? fileWriter;
+    readonly private StreamWriter? fileWriter;
 
     public OutputWriter(string? outputPath)
     {

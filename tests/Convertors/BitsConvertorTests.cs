@@ -11,9 +11,7 @@ public class BitsConvertorTest
     public void ConvertFromBitsLeft()
     {
         string input = "100111101001011";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToBytes(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Left));
+        string result = Convertor.ConvertToBytes(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Left));
         Assert.AreEqual("OK", result);
     }
 
@@ -21,9 +19,7 @@ public class BitsConvertorTest
     public void ConvertFromBitsRight()
     {
         string input = "100111101001011";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToHex(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Right));
+        string result = Convertor.ConvertToHex(InputConvertor.ConvertBits(input, Enums.PaddingOrientation.Right));
         Assert.AreEqual("9e96", result);
     }
 
@@ -31,9 +27,7 @@ public class BitsConvertorTest
     public void ConvertToByteArray()
     {
         string input = "00000001000000100000001100000100";
-        var convertor = new Convertor();
-
-        string result = ByteArrayUtils.appendBrackets(convertor.ConvertToByteArray(InputConvertor.ConvertBits(input), defaultOptions), defaultOptions);
+        string result = ByteArrayUtils.appendBrackets(Convertor.ConvertToByteArray(InputConvertor.ConvertBits(input), defaultOptions), defaultOptions);
         Assert.AreEqual("{0x1, 0x2, 0x3, 0x4}", result);
     }
 
@@ -41,9 +35,7 @@ public class BitsConvertorTest
     public void ConvertToBytes()
     {
         string input = "100 1111 0100 1011";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToBytes(InputConvertor.ConvertBits(input));
+        string result = Convertor.ConvertToBytes(InputConvertor.ConvertBits(input));
         Assert.AreEqual("OK", result);
     }
 
@@ -51,9 +43,7 @@ public class BitsConvertorTest
     public void ConvertToHex()
     {
         string input = "100111101001011";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToHex(InputConvertor.ConvertBits(input));
+        string result = Convertor.ConvertToHex(InputConvertor.ConvertBits(input));
         Assert.AreEqual("4f4b", result);
     }
 
@@ -61,9 +51,7 @@ public class BitsConvertorTest
     public void ConvertToInt()
     {
         string input = "100111101001011";
-        var convertor = new Convertor();
-
-        string result = convertor.ConvertToInt(InputConvertor.ConvertBits(input));
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBits(input));
         Assert.AreEqual("20299", result);
     }
 }

@@ -1,5 +1,5 @@
 namespace Panbyte.CLI;
-public class Help
+public static class Help
 {
     private const string HelpText = @"
 ARGS:
@@ -18,7 +18,7 @@ FORMATS:
     int     Integer
     bits    0,1-represented bits (not supported yet)
     array   Byte array (not supported yet)
-    
+
 ";
 
     public static void Print()

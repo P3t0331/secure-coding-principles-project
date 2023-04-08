@@ -1,5 +1,5 @@
 namespace Panbyte;
-class Program
+static class Program
 {
     static int Main(string[] args)
     {
@@ -9,7 +9,7 @@ class Program
             CLI.InputProcessor inputProcessor = new CLI.InputProcessor(cliArgs);
             inputProcessor.ProcessInput();
         }
-        catch (HelpException)
+        catch (Exceptions.HelpException)
         {
             CLI.Help.Print();
             return 0;
