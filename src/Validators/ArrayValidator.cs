@@ -1,13 +1,22 @@
 namespace Panbyte.Validators;
+
+using System.Text.RegularExpressions;
 using Panbyte.Utils;
 
 
-public static class ArrayValidator
+public static partial class ArrayValidator
 {
-    private const string CHAR_REGEX = @"^'[ -~]{1}'$";
-    private const string XHEX_REGEX = @"^'\\x[0-9a-fA-F]{2}'$";
-    private const string HEX_REGEX = @"^0x[0-9a-fA-F]{2}$";
-    private const string BITS_REGEX = @"^0b[01]{1,8}$";
+    [GeneratedRegex(@"^'[ -~]{1}'$")]
+    private static partial Regex CHAR_REGEX();
+
+    [GeneratedRegex(@"^'\\x[0-9a-fA-F]{2}'$")]
+    private static partial Regex XHEX_REGEX();
+
+    [GeneratedRegex(@"^0x[0-9a-fA-F]{2}$")]
+    private static partial Regex HEX_REGEX();
+
+    [GeneratedRegex(@"^0b[01]{1,8}$")]
+    private static partial Regex BITS_REGEX();
 
     public static void CheckValidPosition(in string input)
     {
@@ -116,15 +125,15 @@ public static class ArrayValidator
 
     public static bool isHex(in string input)
     {
-        return System.Text.RegularExpressions.Regex.IsMatch(input, HEX_REGEX);
+        return HEX_REGEX().IsMatch(input);
     }
     public static bool isCharHex(in string input)
     {
-        return System.Text.RegularExpressions.Regex.IsMatch(input, XHEX_REGEX);
+        return XHEX_REGEX().IsMatch(input);
     }
     public static bool isChar(in string input)
     {
-        return System.Text.RegularExpressions.Regex.IsMatch(input, CHAR_REGEX);
+        return CHAR_REGEX().IsMatch(input);
     }
     public static bool isDecimal(in string input)
     {
@@ -133,8 +142,6 @@ public static class ArrayValidator
 
     public static bool isBits(in string input)
     {
-        return System.Text.RegularExpressions.Regex.IsMatch(input, BITS_REGEX);
+        return BITS_REGEX().IsMatch(input);
     }
-
-
 }

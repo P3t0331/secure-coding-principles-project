@@ -1,6 +1,6 @@
 namespace Panbyte.CLI;
 
-public class FormatParser
+public static class FormatParser
 {
     public static Enums.Format Parse(string format)
     {

@@ -1,6 +1,6 @@
 namespace Panbyte.CLI;
 
-public class ArgumentsParser
+public static class ArgumentsParser
 {
     public static Structs.Arguments Parse(string[] args)
     {
@@ -60,7 +60,7 @@ public class ArgumentsParser
             }
             else if (arg == "-h" || arg == "--help")
             {
-                throw new HelpException();
+                throw new Exceptions.HelpException();
             }
             else
             {

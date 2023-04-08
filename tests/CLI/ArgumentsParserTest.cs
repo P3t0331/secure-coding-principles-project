@@ -38,14 +38,14 @@ public class ArgumentsParserTest
 
         Structs.Arguments arguments = ArgumentsParser.Parse(args);
 
-        Assert.IsTrue(ArrayUtils.Compare<string>(arguments.inputOptions.ToArray(), inputOptions));
-        Assert.IsTrue(ArrayUtils.Compare<string>(arguments.outputOptions.ToArray(), outputOptions));
+        Assert.IsTrue(ArrayUtils.Compare(arguments.inputOptions.ToArray(), inputOptions));
+        Assert.IsTrue(ArrayUtils.Compare(arguments.outputOptions.ToArray(), outputOptions));
     }
 
     [TestMethod]
     public void TestNoArgs()
     {
-        string[] args = new string[] { };
+        string[] args = Array.Empty<string>();
         Assert.ThrowsException<ArgumentNullException>(() => ArgumentsParser.Parse(args));
     }
 
@@ -74,10 +74,10 @@ public class ArgumentsParserTest
     public void TestSameArgMultipleTimes()
     {
         string[] args = new string[] { "-f", "int", "-t", "bits", "-d", ".", "-d", "," };
-        Assert.AreEqual(ArgumentsParser.Parse(args).delimiter, ",");
+        Assert.AreEqual(",", ArgumentsParser.Parse(args).delimiter);
     }
 
-    private void TestAllArgs(string[] args)
+    private static void TestAllArgs(string[] args)
     {
         string inputEndianity = "little";
         string outputPaddingOrientation = "left";
@@ -89,12 +89,12 @@ public class ArgumentsParserTest
 
         Structs.Arguments arguments = ArgumentsParser.Parse(args);
 
-        Assert.IsTrue(ArrayUtils.Compare<string>(arguments.inputOptions.ToArray(), inputOptions));
-        Assert.IsTrue(ArrayUtils.Compare<string>(arguments.outputOptions.ToArray(), outputOptions));
-        Assert.AreEqual(arguments.inputFormat, Enums.Format.Int);
-        Assert.AreEqual(arguments.outputFormat, Enums.Format.Bits);
-        Assert.AreEqual(arguments.inputPath, inputPath);
-        Assert.AreEqual(arguments.outputPath, outputPath);
-        Assert.AreEqual(arguments.delimiter, delimiter);
+        Assert.IsTrue(ArrayUtils.Compare(arguments.inputOptions.ToArray(), inputOptions));
+        Assert.IsTrue(ArrayUtils.Compare(arguments.outputOptions.ToArray(), outputOptions));
+        Assert.AreEqual(Enums.Format.Int, arguments.inputFormat);
+        Assert.AreEqual(Enums.Format.Bits, arguments.outputFormat);
+        Assert.AreEqual(inputPath, arguments.inputPath);
+        Assert.AreEqual(outputPath, arguments.outputPath);
+        Assert.AreEqual(delimiter, arguments.delimiter);
     }
 }

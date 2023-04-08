@@ -2,7 +2,7 @@ using Panbyte.Enums;
 using Panbyte.Structs;
 namespace Panbyte.CLI;
 
-public class OptionsParser
+public static class OptionsParser
 {
     public static Endianity ParseEndianity(List<string> options)
     {

@@ -3,9 +3,9 @@ namespace Panbyte.CLI;
 public class ArgumentsBuilder
 {
     private Enums.Format? inputFormat = null;
-    private List<string> inputOptions = new List<string>();
+    private readonly List<string> inputOptions = new List<string>();
     private Enums.Format? outputFormat = null;
-    private List<string> outputOptions = new List<string>();
+    private readonly List<string> outputOptions = new List<string>();
     private string? inputPath = null;
     private string? outputPath = null;
     private string? delimiter = null;
@@ -54,19 +54,10 @@ public class ArgumentsBuilder
 
     public Structs.Arguments Build()
     {
-        if (inputFormat is null)
-        {
-            throw new ArgumentNullException("Input format is not set!");
-        }
-        else if (outputFormat is null)
-        {
-            throw new ArgumentNullException("Output format is not set!");
-        }
-
-        return new Structs.Arguments(GetInputFormat(), inputOptions, GetOutputFormat(), outputOptions, inputPath, outputPath, delimiter);
+        return new Structs.Arguments(GetInputFormat(inputFormat), inputOptions, GetOutputFormat(outputFormat), outputOptions, inputPath, outputPath, delimiter);
     }
 
-    private Enums.Format GetInputFormat()
+    private static Enums.Format GetInputFormat(Enums.Format? inputFormat)
     {
         if (inputFormat is not null)
         {
@@ -74,11 +65,11 @@ public class ArgumentsBuilder
         }
         else
         {
-            throw new ArgumentNullException("Input format is not set!");
+            throw new ArgumentNullException(nameof(inputFormat));
         }
     }
 
-    private Enums.Format GetOutputFormat()
+    private static Enums.Format GetOutputFormat(Enums.Format? outputFormat)
     {
         if (outputFormat is not null)
         {
@@ -86,7 +77,7 @@ public class ArgumentsBuilder
         }
         else
         {
-            throw new ArgumentNullException("Output format is not set!");
+            throw new ArgumentNullException(nameof(outputFormat));
         }
     }
 }

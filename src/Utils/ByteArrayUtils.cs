@@ -1,9 +1,12 @@
+using System.Text.RegularExpressions;
+
 namespace Panbyte.Utils;
 
-public static class ByteArrayUtils
+public static partial class ByteArrayUtils
 {
 
-    private const string BRACKET_REGEX = @"'[\[\]\{\}\(\)]'|''";
+    [GeneratedRegex(@"'[\[\]\{\}\(\)]'|''")]
+    private static partial Regex BRACKET_REGEX();
 
     public static string appendBrackets(string input, Structs.ArrayOptions options)
     {
@@ -16,7 +19,7 @@ public static class ByteArrayUtils
             case Enums.Bracket.Square:
                 return $"[{input}]";
             default:
-                throw new Exception("Unknown bracket option: " + options.bracket);
+                throw new ArgumentException("Unknown bracket option: " + options.bracket);
         }
     }
 
@@ -40,7 +43,7 @@ public static class ByteArrayUtils
     {
 
         // Remove brackets enclosed in apostrophes
-        return System.Text.RegularExpressions.Regex.Replace(input, BRACKET_REGEX, "");
+        return BRACKET_REGEX().Replace(input, "");
 
     }
 
@@ -68,7 +71,7 @@ public static class ByteArrayUtils
                     {
                         result.Add(input.Substring(indexOfLastComma + 1, i - indexOfLastComma - 1));
                         indexOfLastComma = i;
-                    };
+                    }
                     break;
                 default:
                     break;
