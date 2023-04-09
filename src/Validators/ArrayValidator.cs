@@ -115,7 +115,7 @@ public static partial class ArrayValidator
             throw new FormatException("Input is not correctly nested: " + input);
         }
     }
-    public static bool isNested(in string input)
+    public static bool IsNested(in string input)
     {
         string filteredInput = ByteArrayUtils.extractBrackets(input);
         filteredInput = ByteArrayUtils.removeBracketsInApostrophes(filteredInput);
@@ -123,24 +123,24 @@ public static partial class ArrayValidator
     }
 
 
-    public static bool isHex(in string input)
+    public static bool IsHex(in string input)
     {
         return HEX_REGEX().IsMatch(input);
     }
-    public static bool isCharHex(in string input)
+    public static bool IsCharHex(in string input)
     {
         return XHEX_REGEX().IsMatch(input);
     }
-    public static bool isChar(in string input)
+    public static bool IsChar(in string input)
     {
         return CHAR_REGEX().IsMatch(input);
     }
-    public static bool isDecimal(in string input)
+    public static bool IsDecimal(in string input)
     {
         return (int.TryParse(input, out int value) && value >= 0 && value <= 255);
     }
 
-    public static bool isBits(in string input)
+    public static bool IsBits(in string input)
     {
         return BITS_REGEX().IsMatch(input);
     }

@@ -1,5 +1,6 @@
 namespace Panbyte.Tests.CLI;
 using Panbyte.CLI;
+using Panbyte.Exceptions;
 using Utils;
 
 [TestClass]
@@ -96,5 +97,26 @@ public class ArgumentsParserTest
         Assert.AreEqual(inputPath, arguments.inputPath);
         Assert.AreEqual(outputPath, arguments.outputPath);
         Assert.AreEqual(delimiter, arguments.delimiter);
+    }
+
+    [TestMethod]
+    public void TestNoOptionProvided()
+    {
+        string[] args = new string[] { "-f", "int", "-t", "bits", "--from-options=" };
+        Assert.ThrowsException<ArgumentException>(() => ArgumentsParser.Parse(args));
+    }
+
+    [TestMethod]
+    public void TestBadOptionProvided()
+    {
+        string[] args = new string[] { "-f", "int", "-t", "bits", "--from-options==big" };
+        Assert.ThrowsException<ArgumentException>(() => ArgumentsParser.Parse(args));
+    }
+
+    [TestMethod]
+    public void TestHelpExceptionThrown()
+    {
+        string[] args = new string[] { "-h" };
+        Assert.ThrowsException<HelpException>(() => ArgumentsParser.Parse(args));
     }
 }

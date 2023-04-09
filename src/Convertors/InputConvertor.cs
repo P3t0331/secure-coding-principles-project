@@ -2,6 +2,8 @@ using Panbyte.Enums;
 using System.Text;
 using Panbyte.Validators;
 using System.Text.RegularExpressions;
+using System.Numerics;
+
 namespace Panbyte.Convertors;
 
 public static partial class InputConvertor
@@ -14,10 +16,10 @@ public static partial class InputConvertor
         return Encoding.UTF8.GetBytes(input);
     }
 
-    public static byte[] ConvertInt(uint input, Endianity inputEndianity = Endianity.Big)
+    public static byte[] ConvertInt(BigInteger input, Endianity inputEndianity = Endianity.Big)
     {
         byte[] result;
-        result = BitConverter.GetBytes(input);
+        result = input.ToByteArray();
         if (inputEndianity == Endianity.Big)
         {
             Array.Reverse(result);
@@ -45,7 +47,7 @@ public static partial class InputConvertor
                          .ToArray();
     }
 
-    public static byte[] ConvertArray(string input, Structs.ArrayOptions options)
+    public static byte[] ConvertArray(string input)
     {
         // This regex matches all brackets that are not enclosed with apostrophes
         input = String.Concat(input.Where(c => !Char.IsWhiteSpace(c)));
@@ -55,23 +57,23 @@ public static partial class InputConvertor
         List<byte[]> result = new List<byte[]>();
         foreach (string element in inputList)
         {
-            if (ArrayValidator.isHex(element))
+            if (ArrayValidator.IsHex(element))
             {
                 result.Add(ConvertHex(element.Substring(2)));
             }
-            else if (ArrayValidator.isCharHex(element))
+            else if (ArrayValidator.IsCharHex(element))
             {
                 result.Add(ConvertHex(element.Substring(3, 2)));
             }
-            else if (ArrayValidator.isChar(element))
+            else if (ArrayValidator.IsChar(element))
             {
                 result.Add(ConvertBytes($"{element[1]}"));
             }
-            else if (ArrayValidator.isBits(element))
+            else if (ArrayValidator.IsBits(element))
             {
                 result.Add(ConvertBits(element.Substring(2)));
             }
-            else if (ArrayValidator.isDecimal(element))
+            else if (ArrayValidator.IsDecimal(element))
             {
                 InputValidator.CheckIfUint(element);
                 byte[] conversionResult = ConvertInt(uint.Parse(element)).Where((e) => e != 0).ToArray();

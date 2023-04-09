@@ -4,6 +4,7 @@ using Panbyte.Structs;
 using Panbyte.Validators;
 using Panbyte.Utils;
 using System.Text;
+using System.Numerics;
 
 namespace Panbyte.CLI;
 
@@ -69,14 +70,14 @@ public class InputProcessor
             case Format.Int:
                 InputValidator.CheckIfUint(input);
                 Endianity endianity = OptionsParser.ParseEndianity(cliArgs.inputOptions);
-                return InputConvertor.ConvertInt(uint.Parse(input), endianity);
+                return InputConvertor.ConvertInt(BigInteger.Parse(input), endianity);
             case Format.Bits:
                 InputValidator.CheckIfBits(input);
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
                 return InputConvertor.ConvertBits(input, orientation);
             case Format.Array:
                 ArrayValidator.CheckCorrectNesting(input);
-                return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
+                return InputConvertor.ConvertArray(input);
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.inputFormat);
         }
@@ -117,7 +118,7 @@ public class InputProcessor
 
         for (int i = 0; i < elementList.Length; i++)
         {
-            if (!ArrayValidator.isNested(elementList[i]))
+            if (!ArrayValidator.IsNested(elementList[i]))
             {
                 result.Append(Convertor.ConvertToByteArray(GetBytes(elementList[i]), options));
             }

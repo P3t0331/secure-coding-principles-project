@@ -20,14 +20,6 @@ public class ValidatorTests
     }
 
     [TestMethod]
-    public void TestUintInputOverflow()
-    {
-        string input = "10156543167";
-        Assert.ThrowsException<FormatException>(() => InputValidator.CheckIfUint(input));
-
-    }
-
-    [TestMethod]
     public void TestUintInputNotNumber()
     {
         string input = "1123gjwog443";

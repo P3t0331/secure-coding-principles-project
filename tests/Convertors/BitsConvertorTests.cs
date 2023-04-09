@@ -5,7 +5,7 @@ using Panbyte.Utils;
 [TestClass]
 public class BitsConvertorTest
 {
-    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
+    private readonly Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertFromBitsLeft()
