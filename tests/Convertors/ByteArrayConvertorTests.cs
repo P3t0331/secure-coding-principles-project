@@ -5,7 +5,6 @@ using Panbyte.Utils;
 [TestClass]
 public class ByteArrayConvertorTest
 {
-    private readonly Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
     private readonly Structs.ArrayOptions squareBracketOptions = new Structs.ArrayOptions(bracket: Enums.Bracket.Square, format: Enums.ArrayFormat.Hex);
     private readonly Structs.ArrayOptions roundBracketOptions = new Structs.ArrayOptions(bracket: Enums.Bracket.Round, format: Enums.ArrayFormat.Hex);
     private readonly Structs.ArrayOptions toDecimalFormatOptions = new Structs.ArrayOptions(bracket: Enums.Bracket.Curly, format: Enums.ArrayFormat.Decimal);
@@ -16,7 +15,7 @@ public class ByteArrayConvertorTest
     public void ConvertToHex()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
-        string result = Convertor.ConvertToHex(InputConvertor.ConvertArray(input, defaultOptions));
+        string result = Convertor.ConvertToHex(InputConvertor.ConvertArray(input));
         Assert.AreEqual("01020304", result);
     }
 
@@ -25,7 +24,7 @@ public class ByteArrayConvertorTest
     public void ConvertToBits()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
-        string result = Convertor.ConvertToBits(InputConvertor.ConvertArray(input, defaultOptions));
+        string result = Convertor.ConvertToBits(InputConvertor.ConvertArray(input));
         Assert.AreEqual("00000001000000100000001100000100", result);
     }
 
@@ -34,7 +33,7 @@ public class ByteArrayConvertorTest
     public void ConvertToBytes()
     {
         string input = @"{0x61, 98, 0b1100011, '\x64'}";
-        string result = Convertor.ConvertToBytes(InputConvertor.ConvertArray(input, defaultOptions));
+        string result = Convertor.ConvertToBytes(InputConvertor.ConvertArray(input));
         Assert.AreEqual("abcd", result);
     }
 
@@ -43,7 +42,7 @@ public class ByteArrayConvertorTest
     public void ConvertToInt()
     {
         string input = @"{0x01, 2, 0b11, '\x04'}";
-        string result = Convertor.ConvertToInt(InputConvertor.ConvertArray(input, defaultOptions));
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertArray(input));
         Assert.AreEqual("16909060", result);
     }
 

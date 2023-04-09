@@ -8,7 +8,7 @@ using Panbyte.Utils;
 public class IntConvertorTest
 {
 
-    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
+    private readonly Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertToBits()

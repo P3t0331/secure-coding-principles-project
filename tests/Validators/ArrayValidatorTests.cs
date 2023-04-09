@@ -8,98 +8,98 @@ public class ArrayValidatorTests
     public void TestIsHexValid()
     {
         string input = "0xaf";
-        Assert.IsTrue(ArrayValidator.isHex(input));
+        Assert.IsTrue(ArrayValidator.IsHex(input));
     }
 
     [TestMethod]
     public void TestIsHexInvalidChar()
     {
         string input = "0xqq";
-        Assert.IsFalse(ArrayValidator.isHex(input));
+        Assert.IsFalse(ArrayValidator.IsHex(input));
     }
 
     [TestMethod]
     public void TestIsHexOdd()
     {
         string input = "0xa";
-        Assert.IsFalse(ArrayValidator.isHex(input));
+        Assert.IsFalse(ArrayValidator.IsHex(input));
     }
 
     [TestMethod]
     public void TestIsDecimalValid()
     {
         string input = "125";
-        Assert.IsTrue(ArrayValidator.isDecimal(input));
+        Assert.IsTrue(ArrayValidator.IsDecimal(input));
     }
 
     [TestMethod]
     public void TestIsDecimalInvalidChar()
     {
         string input = "125ab21";
-        Assert.IsFalse(ArrayValidator.isDecimal(input));
+        Assert.IsFalse(ArrayValidator.IsDecimal(input));
     }
 
     [TestMethod]
     public void TestIsDecimalNegative()
     {
         string input = "-125";
-        Assert.IsFalse(ArrayValidator.isDecimal(input));
+        Assert.IsFalse(ArrayValidator.IsDecimal(input));
     }
 
     [TestMethod]
     public void TestIsCharValid()
     {
         string input = "'{'";
-        Assert.IsTrue(ArrayValidator.isChar(input));
+        Assert.IsTrue(ArrayValidator.IsChar(input));
     }
 
     [TestMethod]
     public void TestIsCharNonAscii()
     {
         string input = "'€'";
-        Assert.IsFalse(ArrayValidator.isChar(input));
+        Assert.IsFalse(ArrayValidator.IsChar(input));
     }
 
     [TestMethod]
     public void TestIsCharMultiple()
     {
         string input = "'abc'";
-        Assert.IsFalse(ArrayValidator.isChar(input));
+        Assert.IsFalse(ArrayValidator.IsChar(input));
     }
 
     [TestMethod]
     public void TestIsCharHexValid()
     {
         string input = @"'\x04'";
-        Assert.IsTrue(ArrayValidator.isCharHex(input));
+        Assert.IsTrue(ArrayValidator.IsCharHex(input));
     }
 
     [TestMethod]
     public void TestIsCharHexInvalidChar()
     {
         string input = @"'\x0q'";
-        Assert.IsFalse(ArrayValidator.isCharHex(input));
+        Assert.IsFalse(ArrayValidator.IsCharHex(input));
     }
 
     [TestMethod]
     public void TestIsCharHexMissingApostrophes()
     {
         string input = @"\x04";
-        Assert.IsFalse(ArrayValidator.isCharHex(input));
+        Assert.IsFalse(ArrayValidator.IsCharHex(input));
     }
 
     [TestMethod]
     public void TestIsBitsValid()
     {
         string input = "0b1010";
-        Assert.IsTrue(ArrayValidator.isBits(input));
+        Assert.IsTrue(ArrayValidator.IsBits(input));
     }
 
     [TestMethod]
     public void TestIsBitsInvalidChar()
     {
         string input = "0b101q";
-        Assert.IsFalse(ArrayValidator.isBits(input));
+        Assert.IsFalse(ArrayValidator.IsBits(input));
     }
 
     [TestMethod]

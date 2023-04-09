@@ -7,7 +7,7 @@ using Panbyte.Utils;
 public class BytesConvertorTest
 {
 
-    private Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
+    private readonly Structs.ArrayOptions defaultOptions = new Structs.ArrayOptions();
 
     [TestMethod]
     public void ConvertToBits()

@@ -1,4 +1,5 @@
 ﻿namespace Panbyte.Validators;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 public static partial class InputValidator
@@ -10,7 +11,10 @@ public static partial class InputValidator
     {
         try
         {
-            _ = uint.Parse(input);
+            if (BigInteger.Parse(input) < 0)
+            {
+                throw new FormatException("This number is not uint! " + input);
+            }
         }
         catch (OverflowException)
         {

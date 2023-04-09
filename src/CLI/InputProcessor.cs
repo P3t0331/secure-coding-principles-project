@@ -76,7 +76,7 @@ public class InputProcessor
                 return InputConvertor.ConvertBits(input, orientation);
             case Format.Array:
                 ArrayValidator.CheckCorrectNesting(input);
-                return InputConvertor.ConvertArray(input, OptionsParser.ParseArrayOptions(cliArgs.inputOptions));
+                return InputConvertor.ConvertArray(input);
             default:
                 throw new ArgumentException("Argument not recognized: " + cliArgs.inputFormat);
         }
@@ -117,7 +117,7 @@ public class InputProcessor
 
         for (int i = 0; i < elementList.Length; i++)
         {
-            if (!ArrayValidator.isNested(elementList[i]))
+            if (!ArrayValidator.IsNested(elementList[i]))
             {
                 result.Append(Convertor.ConvertToByteArray(GetBytes(elementList[i]), options));
             }
