@@ -13,12 +13,12 @@ public static partial class InputValidator
         {
             if (BigInteger.Parse(input) < 0)
             {
-                throw new FormatException("This number is not uint! " + input);
+                throw new OverflowException();
             }
         }
         catch (OverflowException)
         {
-            throw new FormatException("This number is not uint! " + input);
+            throw new FormatException("This number is not uint!: " + input);
         }
         catch (FormatException)
         {

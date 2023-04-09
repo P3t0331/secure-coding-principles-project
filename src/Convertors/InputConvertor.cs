@@ -2,6 +2,8 @@ using Panbyte.Enums;
 using System.Text;
 using Panbyte.Validators;
 using System.Text.RegularExpressions;
+using System.Numerics;
+
 namespace Panbyte.Convertors;
 
 public static partial class InputConvertor
@@ -14,10 +16,10 @@ public static partial class InputConvertor
         return Encoding.UTF8.GetBytes(input);
     }
 
-    public static byte[] ConvertInt(uint input, Endianity inputEndianity = Endianity.Big)
+    public static byte[] ConvertInt(BigInteger input, Endianity inputEndianity = Endianity.Big)
     {
         byte[] result;
-        result = BitConverter.GetBytes(input);
+        result = input.ToByteArray();
         if (inputEndianity == Endianity.Big)
         {
             Array.Reverse(result);

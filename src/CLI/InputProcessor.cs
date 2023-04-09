@@ -4,6 +4,7 @@ using Panbyte.Structs;
 using Panbyte.Validators;
 using Panbyte.Utils;
 using System.Text;
+using System.Numerics;
 
 namespace Panbyte.CLI;
 
@@ -69,7 +70,7 @@ public class InputProcessor
             case Format.Int:
                 InputValidator.CheckIfUint(input);
                 Endianity endianity = OptionsParser.ParseEndianity(cliArgs.inputOptions);
-                return InputConvertor.ConvertInt(uint.Parse(input), endianity);
+                return InputConvertor.ConvertInt(BigInteger.Parse(input), endianity);
             case Format.Bits:
                 InputValidator.CheckIfBits(input);
                 PaddingOrientation orientation = OptionsParser.ParsePadding(cliArgs.inputOptions);
