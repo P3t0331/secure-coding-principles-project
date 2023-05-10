@@ -29,16 +29,17 @@ public static class Convertor
                     result.Append(ConvertToInt(inputArray, Enums.Endianity.Little));
                     break;
                 case Enums.ArrayFormat.Char:
+                    result.Append('\'');
                     if (inputArray[0] >= 32 && inputArray[0] <= 126)
                     {
                         result.Append(ConvertToBytes(inputArray));  
                     }
                     else
                     {
-                        result.Append("'\\x");
+                        result.Append("\\x");
                         result.Append(ConvertToHex(inputArray).AsSpan(0, 2));
-                        result.Append('\'');
                     }
+                    result.Append('\'');
                     break;
                 case Enums.ArrayFormat.Binary:
                     result.Append("0b");

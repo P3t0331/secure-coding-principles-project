@@ -142,4 +142,29 @@ public class NestedByteArrayTest
         Assert.AreEqual("{0x1, 0x2, {0x5, {0x6, {0x7}, {0x8}, {0x9, 0xa}}, {0xb}, 0xc}, {0xd}}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
+    [TestMethod]
+    public void ConvertArrayToCharArray()
+    {
+        Structs.Arguments cliArgs = new Structs.Arguments(
+            inputFormat: Enums.Format.Array,
+            inputOptions: new List<string> { },
+            outputFormat: Enums.Format.Array,
+            outputOptions: new List<string> { @"a", "{" },
+            inputPath: null,
+            outputPath: null,
+            delimiter: null
+        );
+        
+        InputProcessor inputProcessor = new InputProcessor(cliArgs: cliArgs);
+        string input = @"{97}";
+        
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+        
+        inputProcessor.ProcessInput();
+        Assert.AreEqual("{'a'}\r\n".Trim(), stringWriter.ToString().Trim());
+    }
 }
