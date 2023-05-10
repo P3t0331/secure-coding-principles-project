@@ -1,5 +1,6 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
+using Panbyte.Exceptions;
 using Panbyte.Utils;
 
 [TestClass]
@@ -63,5 +64,21 @@ public class HexConvertorTest
         string input = "d2029649";
         string result = Convertor.ConvertToInt(InputConvertor.ConvertHex(input), Enums.Endianity.Little);
         Assert.AreEqual("1234567890", result);
+    }
+
+    [TestMethod]
+    public void ConvertToIntSignedValue()
+    {
+        string input = "80";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertHex(input));
+        Assert.AreEqual("128", result);
+    }
+
+    [TestMethod]
+    public void ConvertToIntEdge()
+    {
+        string input = "FFFFFFFF";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertHex(input));
+        Assert.AreEqual("4294967295", result);
     }
 }

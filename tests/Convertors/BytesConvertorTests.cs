@@ -1,5 +1,6 @@
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
+using Panbyte.Exceptions;
 using Panbyte.Utils;
 
 [TestClass]
@@ -47,5 +48,29 @@ public class BytesConvertorTest
         string input = "test";
         string result = Convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
         Assert.AreEqual("1952805748", result);
+    }
+
+    [TestMethod]
+    public void ConvertToIntSignedValue()
+    {
+        string input = "\u0080";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
+        Assert.AreEqual("128", result);
+    }
+
+    [TestMethod]
+    public void ConvertToIntOverflow()
+    {
+        string input = "\u0001";
+        Assert.ThrowsException<UnsignedIntOverflowException>(() =>
+            Convertor.ConvertToInt(InputConvertor.ConvertBytes(input)));
+    }
+
+    [TestMethod]
+    public void ConvertToIntEdge()
+    {
+        string input = "ÿÿÿÿ";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBytes(input));
+        Assert.AreEqual("4294967295", result);
     }
 }
