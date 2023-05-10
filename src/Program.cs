@@ -1,3 +1,5 @@
+using Panbyte.Exceptions;
+
 namespace Panbyte;
 static class Program
 {
@@ -21,6 +23,11 @@ static class Program
             return 1;
         }
         catch (Exception e) when (e is FormatException || e is NotImplementedException)
+        {
+            Console.WriteLine(e.Message);
+            return 1;
+        }
+        catch (UnsignedIntOverflowException e)
         {
             Console.WriteLine(e.Message);
             return 1;
