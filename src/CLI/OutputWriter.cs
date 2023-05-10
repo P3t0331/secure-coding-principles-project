@@ -19,9 +19,10 @@ public class OutputWriter
         }
     }
 
-    public void WriteOut(string line)
+    public void Write(string line)
     {
         var writer = fileWriter ?? Console.Out;
+
         writer.Write(line);
     }
 

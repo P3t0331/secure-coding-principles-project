@@ -28,27 +28,26 @@ public class InputProcessor
 
         while (inputReader.DoesReaderHaveAdditionalInput() && (inputLine = inputReader.ReadUntilDelimiter(delimiter)) != null)
         {
-            
-            string inputs = inputLine.TrimEnd(delimiter.ToCharArray());
+            string input = inputLine.TrimEnd(delimiter.ToCharArray());
             StringBuilder outputLine = new StringBuilder();
 
             if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
             {
-                ArrayValidator.CheckCorrectNesting(inputs);
-                ArrayValidator.CheckValidPosition(inputs);
-                outputLine.Append(ProcessNestedArray(inputs));
+                ArrayValidator.CheckCorrectNesting(input);
+                ArrayValidator.CheckValidPosition(input);
+                outputLine.Append(ProcessNestedArray(input));
             }
             else
             {
-                outputLine.Append(ProcessLine(inputs));
+                outputLine.Append(ProcessLine(input));
             }
 
             if (inputReader.DoesReaderHaveAdditionalInput())
             {
-                outputLine.Append(cliArgs.delimiter);
+                outputLine.Append(delimiter);
             }
 
-            outputWriter.WriteOut(outputLine.ToString());
+            outputWriter.Write(outputLine.ToString());
         }
 
         inputReader.Close();

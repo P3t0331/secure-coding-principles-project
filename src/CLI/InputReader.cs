@@ -50,6 +50,7 @@ public class InputReader
     public bool DoesReaderHaveAdditionalInput()
     {
         var reader = fileReader ?? Console.In;
+
         return reader.Peek() >= 0;
     }
 }
