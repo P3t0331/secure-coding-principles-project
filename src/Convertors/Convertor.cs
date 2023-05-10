@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.Text;
 using System.Numerics;
+using Panbyte.Exceptions;
 
 namespace Panbyte.Convertors;
 
@@ -69,10 +71,20 @@ public static class Convertor
 
     public static string ConvertToInt(byte[] input, Enums.Endianity endianity = Enums.Endianity.Big)
     {
+        if (input.Length > 4)
+        {
+            throw new UnsignedIntOverflowException("Input is too large to be converted to an unsigned integer.");
+        }
+        
         if (endianity == Enums.Endianity.Big)
         {
             Array.Reverse(input);
         }
-        return new BigInteger(input).ToString();
+        
+        byte[] paddedInput = new byte[4] { 0, 0, 0, 0 };
+        input.CopyTo(paddedInput, 0);
+        
+        uint output = BitConverter.ToUInt32(paddedInput, 0);
+        return output.ToString();
     }
 }

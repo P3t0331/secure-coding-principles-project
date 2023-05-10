@@ -1,3 +1,6 @@
+using Panbyte.Enums;
+using Panbyte.Exceptions;
+
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
 using Panbyte.Utils;
@@ -53,5 +56,29 @@ public class BitsConvertorTest
         string input = "100111101001011";
         string result = Convertor.ConvertToInt(InputConvertor.ConvertBits(input));
         Assert.AreEqual("20299", result);
+    }
+    
+    [TestMethod]
+    public void ConvertToIntSignedValue()
+    {
+        string input = "10000000";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBits(input));
+        Assert.AreEqual("128", result);
+    }
+
+    [TestMethod]
+    public void ConvertToIntOverflow()
+    {
+        string input = "100000000000000000000000000000000";
+        Assert.ThrowsException<UnsignedIntOverflowException>(() =>
+            Convertor.ConvertToInt(InputConvertor.ConvertBits(input)));
+    }
+
+    [TestMethod]
+    public void ConvertToIntEdge()
+    {
+        string input = "11111111111111111111111111111111";
+        string result = Convertor.ConvertToInt(InputConvertor.ConvertBits(input));
+        Assert.AreEqual("4294967295", result);
     }
 }
