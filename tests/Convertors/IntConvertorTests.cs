@@ -1,3 +1,6 @@
+using System.Numerics;
+using Panbyte.Exceptions;
+
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
 using Panbyte.Enums;
@@ -56,5 +59,12 @@ public class IntConvertorTest
         string input = "1234567890";
         string result = Convertor.ConvertToInt(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
         Assert.AreEqual("1234567890", result);
+    }
+
+    [TestMethod]
+    public void ConvertBigInt()
+    {
+        var input = 12345678901234567890;
+        Assert.ThrowsException<UnsignedIntOverflowException>(() => Convertor.ConvertToInt(InputConvertor.ConvertInt(input, Endianity.Big)));
     }
 }

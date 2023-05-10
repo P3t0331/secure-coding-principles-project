@@ -3,6 +3,7 @@ using System.Text;
 using Panbyte.Validators;
 using System.Text.RegularExpressions;
 using System.Numerics;
+using Panbyte.Exceptions;
 
 namespace Panbyte.Convertors;
 
@@ -20,6 +21,12 @@ public static partial class InputConvertor
     {
         byte[] result;
         result = input.ToByteArray();
+        
+        if (result.Length > 4)
+        {
+            throw new UnsignedIntOverflowException("Input is too big to be converted to an unsigned integer.");
+        }
+        
         if (inputEndianity == Endianity.Big)
         {
             Array.Reverse(result);
