@@ -143,7 +143,7 @@ public class NestedByteArrayTest
     }
 
     [TestMethod]
-    public void HexToHexWithTrailingZero()
+    public void ArrayHexToHexWithTrailingZero()
     {
         string input = @"{0xf0}";
 
@@ -158,7 +158,7 @@ public class NestedByteArrayTest
     }
 
     [TestMethod]
-    public void HexToHexWithStartingZero()
+    public void ArrayHexToHexWithStartingZero()
     {
         string input = @"{0x0f}";
 
@@ -170,5 +170,35 @@ public class NestedByteArrayTest
 
         defaultInputProcessor.ProcessInput();
         Assert.AreEqual("{0xf}", stringWriter.ToString().Trim());
+    }
+
+    [TestMethod]
+    public void ArrayIntToHexWithTrailingZero()
+    {
+        string input = @"{240}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        defaultInputProcessor.ProcessInput();
+        Assert.AreEqual("{0xf0}", stringWriter.ToString().Trim());
+    }
+
+    [TestMethod]
+    public void ArrayBitsToHexWithTrailingZero()
+    {
+        string input = @"{0b11110000}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        defaultInputProcessor.ProcessInput();
+        Assert.AreEqual("{0xf0}", stringWriter.ToString().Trim());
     }
 }
