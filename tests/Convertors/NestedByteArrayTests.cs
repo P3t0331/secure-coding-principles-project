@@ -143,7 +143,7 @@ public class NestedByteArrayTest
     }
 
     [TestMethod]
-    public void ConvertArrayToCharArray()
+    public void ConvertArrayToCharArrayIntInput()
     {
         Structs.Arguments cliArgs = new Structs.Arguments(
             inputFormat: Enums.Format.Array,
@@ -166,5 +166,57 @@ public class NestedByteArrayTest
         
         inputProcessor.ProcessInput();
         Assert.AreEqual("{'a'}\r\n".Trim(), stringWriter.ToString().Trim());
+    }
+
+    [TestMethod]
+    public void ConvertArrayToCharArrayBitsInput()
+    {
+        Structs.Arguments cliArgs = new Structs.Arguments(
+            inputFormat: Enums.Format.Array,
+            inputOptions: new List<string> { },
+            outputFormat: Enums.Format.Array,
+            outputOptions: new List<string> { @"a", "{" },
+            inputPath: null,
+            outputPath: null,
+            delimiter: null
+        );
+
+        InputProcessor inputProcessor = new InputProcessor(cliArgs: cliArgs);
+        string input = @"{0b1100010}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        inputProcessor.ProcessInput();
+        Assert.AreEqual("{'b'}\r\n".Trim(), stringWriter.ToString().Trim());
+    }
+
+    [TestMethod]
+    public void ConvertArrayToCharArrayHexInput()
+    {
+        Structs.Arguments cliArgs = new Structs.Arguments(
+            inputFormat: Enums.Format.Array,
+            inputOptions: new List<string> { },
+            outputFormat: Enums.Format.Array,
+            outputOptions: new List<string> { @"a", "{" },
+            inputPath: null,
+            outputPath: null,
+            delimiter: null
+        );
+
+        InputProcessor inputProcessor = new InputProcessor(cliArgs: cliArgs);
+        string input = @"{0x63}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        inputProcessor.ProcessInput();
+        Assert.AreEqual("{'c'}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 }
