@@ -142,4 +142,18 @@ public class NestedByteArrayTest
         Assert.AreEqual("{0x1, 0x2, {0x5, {0x6, {0x7}, {0x8}, {0x9, 0xa}}, {0xb}, 0xc}, {0xd}}\r\n".Trim(), stringWriter.ToString().Trim());
     }
 
+    [TestMethod]
+    public void HexToHexWithTrailingZeroes()
+    {
+        string input = @"{0xf0}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        defaultInputProcessor.ProcessInput();
+        Assert.AreEqual("{0xf0}", stringWriter.ToString().Trim());
+    }
 }

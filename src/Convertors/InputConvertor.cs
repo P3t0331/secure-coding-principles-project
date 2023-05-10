@@ -88,7 +88,7 @@ public static partial class InputConvertor
                 throw new FormatException("This input is not a valid byte array format: " + element);
             }
         }
-
+        
         return result.SelectMany(b => b).ToArray();
     }
 

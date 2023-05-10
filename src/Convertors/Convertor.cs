@@ -23,7 +23,8 @@ public static class Convertor
             {
                 case Enums.ArrayFormat.Hex:
                     result.Append("0x");
-                    result.Append(ConvertToHex(inputArray).Replace("0", ""));
+                    var converted = ConvertToHex(inputArray);
+                    result.Append(converted.TrimStart('0'));
                     break;
                 case Enums.ArrayFormat.Decimal:
                     result.Append(ConvertToInt(inputArray, Enums.Endianity.Little));
