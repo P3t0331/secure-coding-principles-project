@@ -143,7 +143,7 @@ public class NestedByteArrayTest
     }
 
     [TestMethod]
-    public void HexToHexWithTrailingZeroes()
+    public void HexToHexWithTrailingZero()
     {
         string input = @"{0xf0}";
 
@@ -155,5 +155,20 @@ public class NestedByteArrayTest
 
         defaultInputProcessor.ProcessInput();
         Assert.AreEqual("{0xf0}", stringWriter.ToString().Trim());
+    }
+
+    [TestMethod]
+    public void HexToHexWithStartingZero()
+    {
+        string input = @"{0x0f}";
+
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        defaultInputProcessor.ProcessInput();
+        Assert.AreEqual("{0xf}", stringWriter.ToString().Trim());
     }
 }
