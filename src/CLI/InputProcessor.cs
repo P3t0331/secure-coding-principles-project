@@ -24,7 +24,7 @@ public class InputProcessor
     public void ProcessInput()
     {
         string? inputLine;
-        var delimiter = cliArgs.delimiter ?? "\n";
+        var delimiter = cliArgs.delimiter ?? Environment.NewLine;
 
         while (inputReader.DoesReaderHaveAdditionalInput() && (inputLine = inputReader.ReadUntilDelimiter(delimiter)) != null)
         {
