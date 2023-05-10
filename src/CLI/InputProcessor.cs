@@ -24,33 +24,31 @@ public class InputProcessor
     public void ProcessInput()
     {
         string? inputLine;
+        var delimiter = cliArgs.delimiter ?? "\n";
 
-        while ((inputLine = inputReader.ReadLine()) != null)
+        while (inputReader.DoesReaderHaveAdditionalInput() && (inputLine = inputReader.ReadUntilDelimiter(delimiter)) != null)
         {
-            string[] inputs = inputLine.Split(cliArgs.delimiter);
+            
+            string inputs = inputLine.TrimEnd(delimiter.ToCharArray());
             StringBuilder outputLine = new StringBuilder();
 
-            for (int i = 0; i < inputs.Length; i++)
+            if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
             {
-                if (cliArgs.inputFormat == Format.Array && cliArgs.outputFormat == Format.Array)
-                {
-                    ArrayValidator.CheckCorrectNesting(inputs[i]);
-                    ArrayValidator.CheckValidPosition(inputs[i]);
-                    outputLine.Append(ProcessNestedArray(inputs[i]));
-                }
-                else
-                {
-                    outputLine.Append(ProcessLine(inputs[i]));
-                }
-
-
-                if (i != inputs.Length - 1 && cliArgs.delimiter != null)
-                {
-                    outputLine.Append(cliArgs.delimiter);
-                }
+                ArrayValidator.CheckCorrectNesting(inputs);
+                ArrayValidator.CheckValidPosition(inputs);
+                outputLine.Append(ProcessNestedArray(inputs));
+            }
+            else
+            {
+                outputLine.Append(ProcessLine(inputs));
             }
 
-            outputWriter.WriteLine(outputLine.ToString());
+            if (inputReader.DoesReaderHaveAdditionalInput())
+            {
+                outputLine.Append(cliArgs.delimiter);
+            }
+
+            outputWriter.WriteOut(outputLine.ToString());
         }
 
         inputReader.Close();

@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Panbyte.CLI;
 
 public class InputReader
@@ -19,16 +21,22 @@ public class InputReader
         }
     }
 
-    public string? ReadLine()
+    public string? ReadUntilDelimiter(String delimiter)
     {
-        if (fileReader != null)
-        {
-            return fileReader.ReadLine();
+        var sb = new StringBuilder();
+        var reader = fileReader ?? Console.In;
+        
+        while (reader.Peek() >= 0)
+        { 
+            sb.Append((char)reader.Read()); 
+            
+            if (sb.Length > delimiter.Length && sb.ToString().EndsWith(delimiter))
+            {
+                return sb.ToString(); 
+            }
         }
-        else
-        {
-            return Console.ReadLine();
-        }
+        
+        return sb.ToString();
     }
 
     public void Close()
@@ -37,5 +45,11 @@ public class InputReader
         {
             fileReader.Close();
         }
+    }
+
+    public bool DoesReaderHaveAdditionalInput()
+    {
+        var reader = fileReader ?? Console.In;
+        return reader.Peek() >= 0;
     }
 }

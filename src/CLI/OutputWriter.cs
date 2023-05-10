@@ -19,16 +19,10 @@ public class OutputWriter
         }
     }
 
-    public void WriteLine(string line)
+    public void WriteOut(string line)
     {
-        if (fileWriter != null)
-        {
-            fileWriter.WriteLine(line);
-        }
-        else
-        {
-            Console.WriteLine(line);
-        }
+        var writer = fileWriter ?? Console.Out;
+        writer.Write(line);
     }
 
     public void Close()
