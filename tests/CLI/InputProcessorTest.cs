@@ -21,7 +21,7 @@ namespace tests.CLI
 
             inputProcessor.ProcessInput();
 
-            Assert.AreEqual("00000001x00000010", stringWriter.ToString());
+            Assert.AreEqual("00000001x00000010" + Environment.NewLine, stringWriter.ToString());
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace tests.CLI
 
             inputProcessor.ProcessInput();
 
-            Assert.AreEqual("00000001" + Environment.NewLine + "00000010", stringWriter.ToString());
+            Assert.AreEqual("00000001" + Environment.NewLine + "00000010" + Environment.NewLine, stringWriter.ToString());
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace tests.CLI
 
             inputProcessor.ProcessInput();
 
-            Assert.AreEqual("12", stringWriter.ToString());
+            Assert.AreEqual("12" + Environment.NewLine, stringWriter.ToString());
         }
     }
 }
