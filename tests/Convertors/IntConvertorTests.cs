@@ -1,3 +1,6 @@
+using Panbyte.CLI;
+using Panbyte.Structs;
+
 namespace Panbyte.Tests.Convertors;
 using Panbyte.Convertors;
 using Panbyte.Enums;
@@ -56,5 +59,23 @@ public class IntConvertorTest
         string input = "1234567890";
         string result = Convertor.ConvertToInt(InputConvertor.ConvertInt(uint.Parse(input), Endianity.Big));
         Assert.AreEqual("1234567890", result);
+    }
+    
+    [TestMethod]
+    public void ConvertIntToIntWithFaultyDelimiter()
+    {
+        Arguments arguments = new Arguments(Panbyte.Enums.Format.Int, new(), Panbyte.Enums.Format.Int, new(), null,
+            null, "x");
+
+        string input = "1\n2x12";
+        
+        StringReader stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+        InputProcessor inputProcessor = new InputProcessor(arguments);
+        
+        Assert.ThrowsException<FormatException>(()=>inputProcessor.ProcessInput());
     }
 }
