@@ -49,6 +49,7 @@ public class InputProcessor
 
             outputWriter.Write(outputLine.ToString());
         }
+
         outputWriter.Write(Environment.NewLine);
         inputReader.Close();
         outputWriter.Close();
